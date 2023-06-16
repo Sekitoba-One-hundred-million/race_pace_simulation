@@ -1,53 +1,90 @@
-import numpy as np
+import math
 from tqdm import tqdm
+from mpi4py import MPI
+
+from data_analyze.once_data import OnceData
 
 import sekitoba_library as lib
 import sekitoba_data_manage as dm
+import sekitoba_data_create as dc
 
-dm.dl.file_set( "susuka_simu_data.pickle" )
-dm.dl.file_set( "falcon_simu_data.pickle" )
-dm.dl.file_set( "race_info.pickle" )
-dm.dl.file_set( "race_cource_info.pickle" )
+def key_list_search( rank, size, key_list ):
+    n = int( len( key_list ) / ( size - 1 ) )
+    s1 = int( ( rank - 1 ) * n )
 
-def main():
-    result = {}
+    if not rank + 1 == size:
+        s2 = s1 + n
+    else:
+        s2 = len( key_list ) + 1
+
+    return key_list[s1:s2]
+
+def main( update = False ):
+    result = None
+
+    comm = MPI.COMM_WORLD   #COMM_WORLDは全体
+    size = comm.Get_size()  #サイズ（指定されたプロセス（全体）数）
+    rank = comm.Get_rank()  #ランク（何番目のプロセスか。プロセスID）
+    name = MPI.Get_processor_name() #プロセスが動いているノードのホスト名
     
-    suzuka_data = dm.dl.data_get( "susuka_simu_data.pickle" )
-    falcon_data = dm.dl.data_get( "falcon_simu_data.pickle" )
-    race_info = dm.dl.data_get( "race_info_data.pickle" )
-    race_cource_info = dm.dl.data_get( "race_cource_info.pickle" )
+    if not update:
+        if rank == 0:
+            result = dm.pickle_load( lib.name.data_name() )
+            #simu_data = dm.pickle_load( lib.name.simu_name() )
+            update_check = False
+            
+            if result == None:
+                update_check =  True
 
-    for k in tqdm( suzuka_data.keys() ):
-        race_id = k
-        key_place = str( race_info[race_id]["place"] )
-        key_dist = str( race_info[race_id]["dist"] )
-        key_kind = str( race_info[race_id]["kind"] )        
-        key_baba = str( race_info[race_id]["baba"] )
-        info_key_dist = key_dist
+            for i in range( 1, size ):
+                comm.send( update_check, dest = i, tag = 1 )
 
-        if race_info[race_id]["out_side"]:
-            info_key_dist += "外"
-
-        s = 0
-        c = 0
-        rci_info = race_cource_info[key_place][key_kind][info_key_dist]["info"]
-
-        try:
-            current_straight = suzuka_data[race_id]
-            current_corner = falcon_data[race_id]
-        except:
-            continue
-
-        result[race_id] = []
-        #直線とコーナーで順にデータを挿入
-        for kind in rci_info:
-            if kind == "s":
-                result[race_id].append( np.array( current_straight[s], dtype = np.float32 ) )
-                s += 1
-            else:
-                result[race_id].append( np.array( current_corner[c], dtype = np.float32 ) )
-                c += 1
+            if not update_check:
+                return result
                 
-            #print( rci_info, kind, s, c, len( current_straight ), len( current_corner ) )
-                
-    return result              
+        else:
+            update_check = comm.recv( source = 0, tag = 1 )
+
+            if not update_check:
+                return None
+
+    if rank == 0:
+        result = {}
+        dm.dl.local_keep()
+        
+        for i in range( 1, size ):
+            comm.send( True, dest = i, tag = 1 )
+
+        result = {}
+        
+        for i in range( 1, size ):
+            file_name = comm.recv( source = i, tag = 2 )
+            print( i, file_name )
+            instance = dm.pickle_load( file_name )
+            dm.pickle_delete( file_name )
+            result.update( instance )
+
+        dm.pickle_upload( lib.name.data_name(), result )
+    else:
+        ok = comm.recv( source = 0, tag = 1 )
+        od = OnceData()
+        print( "start rank:{}".format( rank ) )
+        key_list = key_list_search( rank, size, list( od.race_data.keys() ) )
+
+        if rank == 1:
+            for k in tqdm( key_list ):
+                od.create( k )
+        else:
+            for k in key_list:
+                od.create( k )
+
+        file_name = str( rank ) + "-instance.pickle"
+        dm.pickle_upload( file_name, od.result )
+        comm.send( file_name, dest = 0, tag = 2 )
+        result = None
+
+        if rank == 1:
+            od.score_write()
+
+    dm.dl.data_clear()
+    return result
