@@ -9,15 +9,6 @@ import sekitoba_library as lib
 import sekitoba_data_manage as dm
 
 from sekitoba_data_create.time_index_get import TimeIndexGet
-#from sekitoba_data_create.up_score import UpScore
-from sekitoba_data_create.train_index_get import TrainIndexGet
-#from sekitoba_data_create.pace_time_score import PaceTimeScore
-from sekitoba_data_create.jockey_data_get import JockeyData
-from sekitoba_data_create.trainer_data_get import TrainerData
-from sekitoba_data_create.high_level_data_get import RaceHighLevel
-from sekitoba_data_create.race_type import RaceType
-from sekitoba_data_create.before_data import BeforeData
-#from sekitoba_data_create import parent_data_get
 
 from common.name import Name
 
@@ -25,6 +16,7 @@ data_name = Name()
 
 dm.dl.file_set( "race_data.pickle" )
 dm.dl.file_set( "race_info_data.pickle" )
+dm.dl.file_set( "baba_index_data.pickle" )
 dm.dl.file_set( "horce_data_storage.pickle" )
 dm.dl.file_set( "race_day.pickle" )
 dm.dl.file_set( "race_jockey_id_data.pickle" )
@@ -33,7 +25,6 @@ dm.dl.file_set( "true_skill_data.pickle" )
 dm.dl.file_set( "first_passing_true_skill_data.pickle" )
 dm.dl.file_set( "race_money_data.pickle" )
 dm.dl.file_set( "wrap_data.pickle" )
-dm.dl.file_set( "baba_index_data.pickle" )
 
 class OnceData:
     def __init__( self ):
@@ -49,19 +40,10 @@ class OnceData:
         self.race_money_data = dm.dl.data_get( "race_money_data.pickle" )
         self.wrap_data = dm.dl.data_get( "wrap_data.pickle" )
         
-        self.race_high_level = RaceHighLevel()
-        self.race_type = RaceType()
         self.time_index = TimeIndexGet()
-        self.trainer_data = TrainerData()
-        self.jockey_data = JockeyData()
-        self.before_data = BeforeData()
-        self.train_index = TrainIndexGet()
 
         self.data_name_list = []
         self.write_data_list = []
-        self.kind_score_key_list = {}
-        #self.kind_score_key_list[data_name.waku_three_rate] = [ "place", "dist", "limb", "baba", "kind" ]
-        #self.kind_score_key_list[data_name.limb_score] = [ "place", "dist", "baba", "kind" ]
         self.result = { "answer": [], "teacher": [], "year": [], "race_id": [] }
         self.data_name_read()
 
@@ -95,63 +77,6 @@ class OnceData:
             self.write_data_list = copy.deepcopy( write_instance )
 
         return result
-
-    def division( self, score, d ):
-        if score < 0:
-            score *= -1
-            score /= d
-            score *= -1
-        else:
-            score /= d
-
-        return int( score )
-
-    def match_rank_score( self, cd: lib.current_data, target_id ):
-        try:
-            target_data = self.horce_data[target_id]
-        except:
-            target_data = []
-                
-        target_pd = lib.past_data( target_data, [] )
-        count = 0
-        score = 0
-            
-        for target_cd in target_pd.past_cd_list():
-            c = 0
-                
-            if target_cd.place() == cd.place():
-                c += 1
-                
-            if target_cd.baba_status() == cd.baba_status():
-                c += 1
-
-            if lib.dist_check( target_cd.dist() * 1000 ) == lib.dist_check( cd.dist() * 1000 ):
-                c += 1
-
-            count += c
-            score += target_cd.rank() * c
-
-        if not count == 0:
-            score /= count
-                
-        return int( score )
-
-    def kind_score_get( self, data, key_list, key_data, base_key ):
-        score = 0
-        count = 0
-    
-        for i in range( 0, len( key_list ) ):
-            k1 = key_list[i]
-            for r in range( i + 1, len( key_list ) ):
-                k2 = key_list[r]
-                key_name = k1 + "_" + k2
-                try:
-                    score += data[key_name][key_data[k1]][key_data[k2]][base_key]
-                    count += 1
-                except:
-                    continue
-
-        return score
 
     def clear( self ):
         dm.dl.data_clear()
