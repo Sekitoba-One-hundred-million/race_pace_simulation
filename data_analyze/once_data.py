@@ -213,7 +213,7 @@ class OnceData:
             current_race_data[data_name.up_rate].append( pd.up_rate( key_race_money_class ) )
             current_race_data[data_name.speed_index].append( lib.max_check( speed ) + current_time_index["max"] )
 
-        if len( current_race_data[data_name.up_rate] ) == 0:
+        if len( current_race_data[data_name.up_rate] ) < 2:
             return
 
         N = len( current_race_data[data_name.up_rate] )
