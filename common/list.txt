@@ -34,10 +34,10 @@ min_speed_index
 min_up_rate
 money_class
 money_class_minus
-one_odds
-one_odds_minus
 one_popular_limb
 one_popular_limb_minus
+one_popular_odds
+one_popular_odds_minus
 place
 place_minus
 race_horce_first_passing_true_skill
@@ -60,9 +60,6 @@ test_minus
 three_odds
 three_odds_minus
 three_popular_limb
-three_popular_limb_minus
-two_odds
-two_odds_minus
+two_popular_odds
 two_popular_limb
-two_popular_limb_minus
 up_rate

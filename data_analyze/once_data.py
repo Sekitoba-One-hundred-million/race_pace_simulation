@@ -117,8 +117,8 @@ class OnceData:
         one_popular_limb = -1
         two_popular_limb = -1
         three_popular_limb = -1
-        one_odds = -1
-        two_odds = -1
+        one_popular_odds = -1
+        two_popular_odds = -1
         
         current_race_data = {}
         current_race_data[data_name.race_horce_true_skill] = []
@@ -164,10 +164,10 @@ class OnceData:
 
             if popular == 1:
                 one_popular_limb = limb_math
-                one_odds = odds
+                one_popular_odds = odds
             elif popular == 2:
                 two_popular_limb = limb_math
-                two_odds = odds
+                two_popular_odds = odds
             elif popular == 3:
                 three_popular_limb = limb_math
 
@@ -230,8 +230,8 @@ class OnceData:
         t_instance[data_name.one_popular_limb] = one_popular_limb
         t_instance[data_name.two_popular_limb] = two_popular_limb
         t_instance[data_name.three_popular_limb] = three_popular_limb
-        t_instance[data_name.one_odds] = one_odds
-        t_instance[data_name.two_odds] = two_odds
+        t_instance[data_name.one_popular_odds] = one_popular_odds
+        t_instance[data_name.two_popular_odds] = two_popular_odds
         t_instance[data_name.std_race_horce_true_skill] = stdev( current_race_data[data_name.race_horce_true_skill] )
         t_instance[data_name.std_race_jockey_true_skill] = stdev( current_race_data[data_name.race_jockey_true_skill] )
         t_instance[data_name.std_race_trainer_true_skill] = stdev( current_race_data[data_name.race_trainer_true_skill] )
