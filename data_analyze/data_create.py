@@ -61,7 +61,12 @@ def main( update = False ):
             file_name = comm.recv( source = i, tag = 2 )
             instance = dm.pickle_load( file_name )
             dm.pickle_delete( file_name )
-            result.update( instance )
+
+            if len( result ) == 0:
+                result.update( instance )
+            else:
+                for k in result.keys():
+                    result[k].extend( instance[k] )
 
         dm.pickle_upload( lib.name.data_name(), result )
     else:
