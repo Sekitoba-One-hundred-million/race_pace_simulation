@@ -82,4 +82,4 @@ def main( data ):
     learn_data = data_adjustment.data_check( data )
     model = lg_main( learn_data )
     importance_check( model )
-    data_adjustment.score_check( data, model, upload = True )
+    data_adjustment.score_check( data, model, score_years = lib.simu_years, upload = True )

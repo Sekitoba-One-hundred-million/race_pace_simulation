@@ -44,7 +44,7 @@ def objective( trial ):
                      verbose_eval = 10,
                      num_boost_round = 5000 )
 
-    return data_adjustment.score_check( simu_data, model )
+    return data_adjustment.score_check( simu_data, model, score_years = lib.score_years )
 
 def main( data ):
     global use_data

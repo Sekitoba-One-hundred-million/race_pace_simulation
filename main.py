@@ -37,14 +37,17 @@ def main():
     lib.log.set_write( False )
     parser = ArgumentParser()
     parser.add_argument( "-u", type=bool, default = False, help = "optional" )
-    parser.add_argument( "-s", type=bool, default = False, help = "optional" )
     parser.add_argument( "-l", type=bool, default = False, help = "optional" )
-    parser.add_argument( "-p", type=bool, default = False, help = "optional" )
+    parser.add_argument( "-s", type=str, default = 'test', help = "optional" )
+    parser.add_argument( "-o", type=bool, default = False, help = "optional" )
 
     u_check = parser.parse_args().u
-    s_check = parser.parse_args().s
     l_check = parser.parse_args().l
-    p_check = parser.parse_args().p
+    s_check = parser.parse_args().s
+    o_check = parser.parse_args().o
+
+    if s_check == 'prod':
+        lib.prod_check = True
     
     learn_data = data_create.main( update = u_check )
     
@@ -56,7 +59,7 @@ def main():
 
         if l_check:
             base_learn.main( learn_data )
-        elif p_check:
+        elif o_check:
             optuna_learn.main( learn_data )
                     
     MPI.Finalize()        

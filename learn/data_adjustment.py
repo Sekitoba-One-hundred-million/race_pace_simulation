@@ -16,8 +16,8 @@ def data_check( data ):
         current_answer = data["answer"][i]
         answer_pace = current_answer
         year = data["year"][i]
-        
-        if year in lib.test_years:
+
+        if ( not lib.prod_check and year in lib.valid_years ) or ( lib.prod_check and year in lib.test_years):
             result["test_teacher"].append( current_data )
             result["test_answer"].append( answer_pace )
         else:
@@ -26,19 +26,23 @@ def data_check( data ):
 
     return result
 
-def score_check( data, model, upload = False ):
+def score_check( data, model, score_years = lib.score_years, upload = False ):
     result = {}
     predict_data = model.predict( np.array( data["teacher"] ) )
     score = 0
-    acc = 0
+    count = 0
     
     for i in range( 0, len( predict_data ) ):
-        result[data["race_id"][i]] = predict_data[i]
+        race_id = data["race_id"][i]
+        year = race_id[0:4]
+        result[race_id] = predict_data[i]
 
-        if data["year"][i] in lib.test_years:
+        if ( ( not lib.prod_check and year in score_years ) \
+             or ( lib.prod_check and year in lib.test_years ) ):
             score += math.pow( predict_data[i] - data["answer"][i], 2 )
+            count += 1
 
-    score /= len( predict_data )
+    score /= count
     score = math.sqrt( score )
     print( "score: {}".format( score ) )
 
