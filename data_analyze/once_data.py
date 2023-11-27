@@ -26,6 +26,7 @@ dm.dl.file_set( "true_skill_data.pickle" )
 dm.dl.file_set( "first_passing_true_skill_data.pickle" )
 dm.dl.file_set( "race_money_data.pickle" )
 dm.dl.file_set( "wrap_data.pickle" )
+dm.dl.file_set( "predict_netkeiba_pace_data.pickle" )
 
 class OnceData:
     def __init__( self ):
@@ -40,6 +41,7 @@ class OnceData:
         self.first_passing_true_skill_data = dm.dl.data_get( "first_passing_true_skill_data.pickle" )
         self.race_money_data = dm.dl.data_get( "race_money_data.pickle" )
         self.wrap_data = dm.dl.data_get( "wrap_data.pickle" )
+        self.predict_netkeiba_pace_data = dm.dl.data_get( "predict_netkeiba_pace_data.pickle" )
         
         self.time_index = TimeIndexGet()
         self.before_race_score = BeforeRaceScore()
@@ -103,6 +105,11 @@ class OnceData:
         if not race_id in self.race_money_data:
             return
 
+        predict_netkeiba_pace = -1
+
+        if race_id in self.predict_netkeiba_pace_data:
+            predict_netkeiba_pace = lib.netkeiba_pace( self.predict_netkeiba_pace_data[race_id] )
+        
         money_class = int( lib.money_class_get( self.race_money_data[race_id] ) )
         key_race_money_class = str( money_class )
         teacher_data = []
@@ -268,6 +275,7 @@ class OnceData:
         t_instance[data_name.one_popular_odds] = one_popular_odds
         t_instance[data_name.two_popular_odds] = two_popular_odds
         t_instance[data_name.three_popular_odds] = three_popular_odds
+        t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
 
         for data_key in current_race_data.keys():
             if not type( current_race_data[data_key] ) is list or \
