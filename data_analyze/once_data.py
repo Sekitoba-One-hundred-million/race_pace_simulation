@@ -172,7 +172,7 @@ class OnceData:
                     before_last_passing_rank = int( before_passing_rank[-1] )
                 except:
                     pass
-            
+
             jockey_id = ""
             trainer_id = ""
             
@@ -243,8 +243,8 @@ class OnceData:
             current_race_data[data_name.race_horce_first_passing_true_skill].append( horce_first_passing_true_skill )
             current_race_data[data_name.race_jockey_first_passing_true_skill].append( jockey_first_passing_true_skill )
             current_race_data[data_name.race_trainer_first_passing_true_skill].append( trainer_first_passing_true_skill )
-            current_race_data[data_name.up_rate].append( pd.up_rate( key_race_money_class ) )
-            current_race_data[data_name.speed_index].append( lib.max_check( speed ) + current_time_index["max"] )
+            current_race_data[data_name.race_up_rate].append( pd.up_rate( key_race_money_class ) )
+            current_race_data[data_name.race_speed_index].append( lib.max_check( speed ) + current_time_index["max"] )
             current_race_data[data_name.race_before_diff].append( before_diff )
             current_race_data[data_name.race_before_first_passing_rank].append( before_first_passing_rank )
             current_race_data[data_name.race_before_last_passing_rank].append( before_last_passing_rank )
@@ -254,10 +254,10 @@ class OnceData:
             current_race_data[data_name.race_before_rank].append( before_rank )
             current_race_data[data_name.race_before_speed].append( before_speed )
 
-        if len( current_race_data[data_name.up_rate] ) < 2:
+        if len( current_race_data[data_name.race_up_rate] ) < 2:
             return
 
-        N = len( current_race_data[data_name.up_rate] )
+        N = len( current_race_data[data_name.race_up_rate] )
 
         t_instance = {}
         t_instance[data_name.all_horce_num] = N
@@ -276,7 +276,7 @@ class OnceData:
         t_instance[data_name.two_popular_odds] = two_popular_odds
         t_instance[data_name.three_popular_odds] = three_popular_odds
         t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
-
+            
         for data_key in current_race_data.keys():
             if not type( current_race_data[data_key] ) is list or \
               len( current_race_data[data_key] ) == 0:
