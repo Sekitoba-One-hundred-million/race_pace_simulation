@@ -156,7 +156,7 @@ class OnceData:
 
             if not before_cd == None:
                 before_diff = before_cd.diff()
-                before_passing_rank = before_cd.passing_rank()
+                before_passing_rank = before_cd.passing_rank().split( "-" )
                 before_id_weight = before_cd.id_weight()
                 before_popular = before_cd.popular()
                 before_rank = before_cd.rank()
