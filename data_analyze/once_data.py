@@ -282,9 +282,9 @@ class OnceData:
               len( current_race_data[data_key] ) == 0:
                 continue
 
-            t_instance["ave_"+data_key] = sum( current_race_data[data_key] ) / N
+            t_instance["ave_"+data_key] = lib.average( current_race_data[data_key] )
             t_instance["max_"+data_key] = max( current_race_data[data_key] )
-            t_instance["min_"+data_key] = min( current_race_data[data_key] )
+            t_instance["min_"+data_key] = lib.minimum( current_race_data[data_key] )
             t_instance["std_"+data_key] = stdev( current_race_data[data_key] )
 
         t_instance[data_name.std_race_horce_true_skill] = stdev( current_race_data[data_name.race_horce_true_skill] )
