@@ -3,7 +3,6 @@ import copy
 import sklearn
 from tqdm import tqdm
 from mpi4py import MPI
-from statistics import stdev
 
 import sekitoba_library as lib
 import sekitoba_data_manage as dm
@@ -285,9 +284,9 @@ class OnceData:
             t_instance["ave_"+data_key] = lib.average( current_race_data[data_key] )
             t_instance["max_"+data_key] = max( current_race_data[data_key] )
             t_instance["min_"+data_key] = lib.minimum( current_race_data[data_key] )
-            t_instance["std_"+data_key] = stdev( current_race_data[data_key] )
+            t_instance["std_"+data_key] = lib.stdev( current_race_data[data_key] )
 
-        t_instance[data_name.std_race_horce_true_skill] = stdev( current_race_data[data_name.race_horce_true_skill] )
+        t_instance[data_name.std_race_horce_true_skill] = lib.stdev( current_race_data[data_name.race_horce_true_skill] )
         t_list = self.data_list_create( t_instance )
 
         self.result["answer"].append( pace )
