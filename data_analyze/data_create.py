@@ -51,6 +51,7 @@ def main( update = False ):
     if rank == 0:
         result = {}
         dm.dl.local_keep()
+        dm.dl.data_clear()
         
         for i in range( 1, size ):
             comm.send( True, dest = i, tag = 1 )
@@ -73,7 +74,7 @@ def main( update = False ):
         ok = comm.recv( source = 0, tag = 1 )
         od = OnceData()
         print( "start rank:{}".format( rank ) )
-        key_list = key_list_search( rank, size, list( od.race_data.keys() ) )
+        key_list = key_list_search( rank, size, list( od.race_data.get_all_race_id() ) )
 
         if rank == 1:
             for k in tqdm( key_list ):
