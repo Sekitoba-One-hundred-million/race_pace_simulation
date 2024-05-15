@@ -9,11 +9,12 @@ import sekitoba_library as lib
 import sekitoba_data_manage as dm
 #from learn import simulation
 
-def lg_main( data ):
+def lg_main( data, answer_key ):
     params = {}
+    file_name = "{}_best_params.json".format( answer_key )
     
-    if os.path.isfile( "best_params.json" ):
-        f = open( "best_params.json", "r" )
+    if os.path.isfile( file_name ):
+        f = open( file_name, "r" )
         params = json.load( f )
         f.close()
     else:
@@ -49,8 +50,6 @@ def lg_main( data ):
                      valid_sets = [lgb_train, lgb_vaild ],
                      verbose_eval = 10,
                      num_boost_round = 5000 )
-    
-    dm.pickle_upload( lib.name.model_name(), bst )
         
     return bst
 
@@ -79,7 +78,15 @@ def importance_check( model ):
         wf.write( "{}: {}\n".format( result[i]["key"], result[i]["score"] ) )        
 
 def main( data ):
-    learn_data = data_adjustment.data_check( data )
-    model = lg_main( learn_data )
-    importance_check( model )
-    data_adjustment.score_check( data, model, score_years = lib.simu_years, upload = True )
+    model_result = {}
+    result = {}
+    
+    for answer_key in lib.predict_pace_key_list:
+        learn_data = data_adjustment.data_check( data, answer_key )
+        model_result[answer_key] = lg_main( learn_data, answer_key )
+
+    for answer_key in lib.predict_pace_key_list:
+        data_adjustment.score_check( data, model_result[answer_key], answer_key, result, score_years = lib.simu_years )
+
+    dm.pickle_upload( "predict_pace_data.pickle", result )
+    dm.pickle_upload( lib.name.model_name(), model_result )    

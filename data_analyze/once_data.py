@@ -15,6 +15,8 @@ from common.name import Name
 
 data_name = Name()
 
+dm.dl.file_set( "race_cource_info.pickle" )
+
 class OnceData:
     def __init__( self ):
         self.race_data = ps.RaceData()
@@ -23,6 +25,7 @@ class OnceData:
         
         self.time_index = TimeIndexGet( self.horce_data )
         self.before_race_score = BeforeRaceScore( self.race_data )
+        self.race_cource_info = dm.dl.data_get( "race_cource_info.pickle" )
         
         self.data_name_list = []
         self.write_data_list = []
@@ -94,12 +97,7 @@ class OnceData:
         teacher_data = []
         answer_data = []
         diff_data = []
-
-        pace = lib.pace_data( self.race_data.data["wrap"] )
         
-        if pace == None:
-            return
-
         escape_limb_count = 0
         insert_limb_count = 0
         one_popular_limb = -1
@@ -108,6 +106,14 @@ class OnceData:
         one_popular_odds = -1
         two_popular_odds = -1
         three_popular_odds = -1
+        first_straight_dist = -1000
+        last_straight_dist = -1000
+
+        try:
+            first_straight_dist = self.race_cource_info[key_place][key_kind][key_dist]["dist"][0]
+            last_straight_dist = self.race_cource_info[key_place][key_kind][key_dist]["dist"][-1]
+        except:
+            pass
         
         current_race_data = {}
         
@@ -218,6 +224,8 @@ class OnceData:
         t_instance[data_name.two_popular_odds] = two_popular_odds
         t_instance[data_name.three_popular_odds] = three_popular_odds
         t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
+        t_instance[data_name.first_straight_dist] = first_straight_dist
+        t_instance[data_name.last_straight_dist] = last_straight_dist
             
         for data_key in current_race_data.keys():
             if not type( current_race_data[data_key] ) is list or \
@@ -229,10 +237,24 @@ class OnceData:
             t_instance["min_"+data_key] = lib.minimum( current_race_data[data_key] )
             t_instance["std_"+data_key] = lib.stdev( current_race_data[data_key] )
 
+        answer_data = {}
+
+        one_hudred_pace = lib.one_hundred_pace( self.race_data.data["wrap"] )
+
+        if not type( one_hudred_pace ) == list:
+            return
+            
+        answer_data["pace"] = lib.pace_data( self.race_data.data["wrap"] )
+        answer_data["pace_regression"], answer_data["before_pace_regression"], answer_data["after_pace_regression"] = \
+          lib.pace_regression( one_hudred_pace )
+        answer_data["pace_conv"] = lib.conv( one_hudred_pace )
+        answer_data["first_up3"] = sum( one_hudred_pace[0:6] )
+        answer_data["last_up3"] = sum( one_hudred_pace[int(len(one_hudred_pace)-6):len(one_hudred_pace)] )
+
         t_instance[data_name.std_race_horce_true_skill] = lib.stdev( current_race_data[data_name.race_horce_true_skill] )
         t_list = self.data_list_create( t_instance )
 
-        self.result["answer"].append( pace )
+        self.result["answer"].append( answer_data )
         self.result["teacher"].append( t_list )
         self.result["year"].append( year )
         self.result["race_id"].append( race_id )

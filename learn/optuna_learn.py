@@ -9,6 +9,7 @@ import sekitoba_data_manage as dm
 
 simu_data = {}
 use_data = {}
+answer_key = ""
 
 def objective( trial ):
     lgb_train = lgb.Dataset( np.array( use_data["teacher"] ), np.array( use_data["answer"] ) )
@@ -44,19 +45,23 @@ def objective( trial ):
                      verbose_eval = 10,
                      num_boost_round = 5000 )
 
-    return data_adjustment.score_check( simu_data, model, score_years = lib.score_years )
+    return data_adjustment.score_check( simu_data, model, answer_key, {}, score_years = lib.score_years )
 
 def main( data ):
+    answer_key_list = [ "pace", "pace_regression", "before_pace_regression", "after_pace_regression", "pace_conv" ]
     global use_data
     global simu_data
+    global answer_key
 
     simu_data = data
-    use_data = data_adjustment.data_check( data )
+    
+    for key in answer_key_list:
+        answer_key = key
+        use_data = data_adjustment.data_check( data, answer_key )
+        study = optuna.create_study()
+        study.optimize(objective, n_trials=100)
+        print( study.best_params )
 
-    study = optuna.create_study()
-    study.optimize(objective, n_trials=100)
-    print( study.best_params )
-
-    f = open( "best_params.json", "w" )
-    json.dump( study.best_params, f )
-    f.close()
+        f = open( "{}_best_params.json".format( answer_key ), "w" )
+        json.dump( study.best_params, f )
+        f.close()

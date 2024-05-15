@@ -100,3 +100,5 @@ class Name:
         self.min_race_corner_diff_rank_ave = "min_race_corner_diff_rank_ave"
         self.std_race_corner_diff_rank_ave = "std_race_corner_diff_rank_ave"
         self.predict_netkeiba_pace = "predict_netkeiba_pace"
+        self.first_straight_dist = "first_straight_dist"
+        self.last_straight_dist = "last_straight_dist"

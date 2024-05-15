@@ -75,3 +75,5 @@ max_race_before_speed
 min_race_before_speed
 std_race_before_speed
 predict_netkeiba_pace
+first_straight_dist
+last_straight_dist
