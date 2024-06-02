@@ -48,14 +48,13 @@ def objective( trial ):
     return data_adjustment.score_check( simu_data, model, answer_key, {}, score_years = lib.score_years )
 
 def main( data ):
-    answer_key_list = [ "pace", "pace_regression", "before_pace_regression", "after_pace_regression", "pace_conv" ]
     global use_data
     global simu_data
     global answer_key
 
     simu_data = data
     
-    for key in answer_key_list:
+    for key in lib.predict_pace_key_list:
         answer_key = key
         use_data = data_adjustment.data_check( data, answer_key )
         study = optuna.create_study()

@@ -51,7 +51,7 @@ class OnceData:
         result = []
         write_instance = []
         
-        for data_name in self.data_name_list:
+        for data_name in self.data_name_list:                
             try:
                 result.append( data_dict[data_name] )
                 write_instance.append( data_name )
@@ -182,15 +182,22 @@ class OnceData:
             horce_first_passing_true_skill = self.race_horce_data.data[horce_id]["horce_first_passing_true_skill"]
             jockey_first_passing_true_skill = self.race_horce_data.data[horce_id]["jockey_first_passing_true_skill"]
             trainer_first_passing_true_skill = self.race_horce_data.data[horce_id]["trainer_first_passing_true_skill"]
-            
+            up3_horce_true_skill = self.race_horce_data.data[horce_id]["horce_up3_true_skill"]
+            up3_jockey_true_skill = self.race_horce_data.data[horce_id]["jockey_up3_true_skill"]
+            up3_trainer_true_skill = self.race_horce_data.data[horce_id]["trainer_up3_true_skill"]
             current_time_index = self.time_index.main( horce_id, pd.past_day_list() )
             speed, up_speed, pace_speed = pd.speed_index( self.horce_data.data[horce_id]["baba_index"] )
+            pace_up_rate = pd.pace_up_rate()
+            
             current_race_data[data_name.race_horce_true_skill].append( horce_true_skill )
             current_race_data[data_name.race_jockey_true_skill].append( jockey_true_skill )
             current_race_data[data_name.race_trainer_true_skill].append( trainer_true_skill )
             current_race_data[data_name.race_horce_first_passing_true_skill].append( horce_first_passing_true_skill )
             current_race_data[data_name.race_jockey_first_passing_true_skill].append( jockey_first_passing_true_skill )
             current_race_data[data_name.race_trainer_first_passing_true_skill].append( trainer_first_passing_true_skill )
+            current_race_data[data_name.race_up3_horce_true_skill].append( up3_horce_true_skill )
+            current_race_data[data_name.race_up3_jockey_true_skill].append( up3_jockey_true_skill )
+            current_race_data[data_name.race_up3_trainer_true_skill].append( up3_trainer_true_skill )
             current_race_data[data_name.race_up_rate].append( pd.up_rate( key_race_money_class, self.race_data.data["up_kind_ave"] ) )
             current_race_data[data_name.race_speed_index].append( lib.max_check( speed ) + current_time_index["max"] )
             current_race_data[data_name.race_before_diff].append( before_diff )
@@ -201,6 +208,12 @@ class OnceData:
             current_race_data[data_name.race_before_race_score].append( before_race_score )
             current_race_data[data_name.race_before_rank].append( before_rank )
             current_race_data[data_name.race_before_speed].append( before_speed )
+            current_race_data[data_name.race_match_up3].append( pd.match_up3() )
+            current_race_data[data_name.race_level_score].append( pd.level_score( self.race_data.data["money_class_true_skill"] ) )
+            current_race_data[data_name.race_level_up3].append( pd.level_up3( self.race_data.data["money_class_true_skill"] ) )
+
+            for pace_up_rate_key in pace_up_rate.keys():
+                current_race_data[data_name.race_pace_up_rate+"_"+pace_up_rate_key].append( pace_up_rate[pace_up_rate_key] )
 
         if len( current_race_data[data_name.race_up_rate] ) < 2:
             return

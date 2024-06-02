@@ -53,7 +53,7 @@ def lg_main( data, answer_key ):
         
     return bst
 
-def importance_check( model ):
+def importance_check( model, file_name ):
     result = []
     importance_data = model.feature_importance()
     f = open( "common/rank_score_data.txt" )
@@ -72,7 +72,7 @@ def importance_check( model ):
 
     result = sorted( result, key = lambda x: x["score"], reverse= True )
 
-    wf = open( "importance_data.txt", "w" )
+    wf = open( file_name, "w" )
 
     for i in range( 0, len( result ) ):
         wf.write( "{}: {}\n".format( result[i]["key"], result[i]["score"] ) )        
@@ -87,6 +87,7 @@ def main( data ):
 
     for answer_key in lib.predict_pace_key_list:
         data_adjustment.score_check( data, model_result[answer_key], answer_key, result, score_years = lib.simu_years )
+        importance_check( model_result[answer_key], "{}_importance.txt".format( answer_key ) )
 
     dm.pickle_upload( "predict_pace_data.pickle", result )
     dm.pickle_upload( lib.name.model_name(), model_result )    
