@@ -45,22 +45,25 @@ def objective( trial ):
                      verbose_eval = 10,
                      num_boost_round = 5000 )
 
-    return data_adjustment.score_check( simu_data, model, answer_key, {}, score_years = lib.score_years )
+    return data_adjustment.score_check( simu_data, [ model ], answer_key, {}, score_years = lib.score_years )
 
 def main( data ):
     global use_data
     global simu_data
     global answer_key
-
+    #data_adjustment.teacher_stand( data, state = "optuna" )
     simu_data = data
     
     for key in lib.predict_pace_key_list:
         answer_key = key
-        use_data = data_adjustment.data_check( data, answer_key )
-        study = optuna.create_study()
-        study.optimize(objective, n_trials=100)
-        print( study.best_params )
+        param_list = []
+        use_data = data_adjustment.data_check( data, answer_key, state = "optuna" )
+
+        for i in range( 0, 5 ):
+            study = optuna.create_study()
+            study.optimize(objective, n_trials=100)
+            param_list.append( study.best_params )
 
         f = open( "{}_best_params.json".format( answer_key ), "w" )
-        json.dump( study.best_params, f )
+        json.dump( param_list, f )
         f.close()

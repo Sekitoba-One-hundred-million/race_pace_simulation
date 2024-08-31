@@ -10,6 +10,7 @@ import sekitoba_psql as ps
 
 from sekitoba_data_create.time_index_get import TimeIndexGet
 from sekitoba_data_create.before_race_score_get import BeforeRaceScore
+from sekitoba_data_create.stride_ablity import StrideAblity
 
 from common.name import Name
 
@@ -22,7 +23,8 @@ class OnceData:
         self.race_data = ps.RaceData()
         self.race_horce_data = ps.RaceHorceData()
         self.horce_data = ps.HorceData()
-        
+
+        self.stride_ablity = StrideAblity( self.race_data )
         self.time_index = TimeIndexGet( self.horce_data )
         self.before_race_score = BeforeRaceScore( self.race_data )
         self.race_cource_info = dm.dl.data_get( "race_cource_info.pickle" )
@@ -49,17 +51,18 @@ class OnceData:
 
     def data_list_create( self, data_dict ):
         result = []
-        write_instance = []
+        data_key_list = []
+
+        if not len( self.write_data_list ) == 0:
+            data_key_list = copy.deepcopy( self.write_data_list )
+        else:
+            data_key_list = list( data_dict.keys() )
         
-        for data_name in self.data_name_list:                
-            try:
-                result.append( data_dict[data_name] )
-                write_instance.append( data_name )
-            except:
-                continue
+        for data_name in data_key_list:
+            result.append( data_dict[data_name] )
 
         if len( self.write_data_list ) == 0:
-            self.write_data_list = copy.deepcopy( write_instance )
+            self.write_data_list = copy.deepcopy( data_key_list )
 
         return result
 
@@ -129,6 +132,7 @@ class OnceData:
                 continue
 
             limb_math = lib.limb_search( pd )
+            key_limb = str( limb_math )
             before_cd = pd.before_cd()
             before_diff = -1000
             before_first_passing_rank = -1000
@@ -188,6 +192,24 @@ class OnceData:
             current_time_index = self.time_index.main( horce_id, pd.past_day_list() )
             speed, up_speed, pace_speed = pd.speed_index( self.horce_data.data[horce_id]["baba_index"] )
             pace_up_rate = pd.pace_up_rate()
+            stride_ablity_data = self.stride_ablity.ablity_create( cd, pd )
+            past_min_first_horce_body = -1000
+            past_max_first_horce_body = -1000
+            past_ave_first_horce_body = -1000
+            past_std_first_horce_body = -1000
+            past_first_horce_body_list = pd.past_first_horce_body_list()
+
+            if not len( past_first_horce_body_list ) == 0:
+                past_min_first_horce_body = lib.minimum( past_first_horce_body_list )
+                past_max_first_horce_body = lib.max_check( past_first_horce_body_list )
+                past_ave_first_horce_body = lib.average( past_first_horce_body_list )
+
+                if len( past_first_horce_body_list ) > 1:
+                    past_std_first_horce_body = lib.stdev( past_first_horce_body_list )
+
+            for stride_data_key in stride_ablity_data.keys():
+                for math_key in stride_ablity_data[stride_data_key].keys():
+                    current_race_data["race_"+stride_data_key+"_"+math_key].append( stride_ablity_data[stride_data_key][math_key] )
             
             current_race_data[data_name.race_horce_true_skill].append( horce_true_skill )
             current_race_data[data_name.race_jockey_true_skill].append( jockey_true_skill )
@@ -211,6 +233,11 @@ class OnceData:
             current_race_data[data_name.race_match_up3].append( pd.match_up3() )
             current_race_data[data_name.race_level_score].append( pd.level_score( self.race_data.data["money_class_true_skill"] ) )
             current_race_data[data_name.race_level_up3].append( pd.level_up3( self.race_data.data["money_class_true_skill"] ) )
+            current_race_data[data_name.race_past_min_first_horce_body].append( past_min_first_horce_body )
+            current_race_data[data_name.race_past_max_first_horce_body].append( past_max_first_horce_body )
+            current_race_data[data_name.race_past_ave_first_horce_body].append( past_ave_first_horce_body )
+            current_race_data[data_name.race_past_std_first_horce_body].append( past_std_first_horce_body )
+            current_race_data[data_name.race_stamina].append( pd.stamina_create( key_limb ) )
 
             for pace_up_rate_key in pace_up_rate.keys():
                 current_race_data[data_name.race_pace_up_rate+"_"+pace_up_rate_key].append( pace_up_rate[pace_up_rate_key] )
@@ -239,25 +266,49 @@ class OnceData:
         t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
         t_instance[data_name.first_straight_dist] = first_straight_dist
         t_instance[data_name.last_straight_dist] = last_straight_dist
-            
+
         for data_key in current_race_data.keys():
             if not type( current_race_data[data_key] ) is list or \
               len( current_race_data[data_key] ) == 0:
                 continue
 
+            abort_param = -1000
+            current_race_data[data_key] = [v for v in current_race_data[data_key] if not v == abort_param ]
+            sort_data = sorted( current_race_data[data_key] )
+            reverse_sort_data = sorted( current_race_data[data_key], reverse = True )
+
             t_instance["ave_"+data_key] = lib.average( current_race_data[data_key] )
-            t_instance["max_"+data_key] = max( current_race_data[data_key] )
+            t_instance["max_"+data_key] = lib.max_check( current_race_data[data_key] )
             t_instance["min_"+data_key] = lib.minimum( current_race_data[data_key] )
-            t_instance["std_"+data_key] = lib.stdev( current_race_data[data_key] )
+            #t_instance["std_"+data_key] = lib.stdev( current_race_data[data_key] )
+
+            for i in range( 0, 3 ):
+                try:
+                    t_instance["{}_".format(i+1)+data_key] = sort_data[i]
+                except:
+                    t_instance["{}_".format(i+1)+data_key] = -1000
+
+            for i in range( 0, 3 ):
+                try:
+                    t_instance["reverse_{}_".format(i+1)+data_key] = reverse_sort_data[i]
+                except:
+                    t_instance["reverse_{}_".format(i+1)+data_key] = -1000
+                
+            #for h_num in range( 0, 18 ):
+            #    key = "{}_".format( h_num + 1 ) + data_key
+                
+            #    if h_num < len( sort_data ):
+            #        t_instance[key] = sort_data[h_num]
+            #    else:
+            #        t_instance[key] = -1000
 
         answer_data = {}
-
         one_hudred_pace = lib.one_hundred_pace( self.race_data.data["wrap"] )
 
         if not type( one_hudred_pace ) == list:
             return
             
-        answer_data["pace"] = lib.pace_data( self.race_data.data["wrap"] )
+        answer_data["pace"] = round( lib.pace_data( self.race_data.data["wrap"] ), 1 )
         answer_data["pace_regression"], answer_data["before_pace_regression"], answer_data["after_pace_regression"] = \
           lib.pace_regression( one_hudred_pace )
         answer_data["pace_conv"] = lib.conv( one_hudred_pace )

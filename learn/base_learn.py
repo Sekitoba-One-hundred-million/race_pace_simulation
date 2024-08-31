@@ -9,13 +9,13 @@ import sekitoba_library as lib
 import sekitoba_data_manage as dm
 #from learn import simulation
 
-def lg_main( data, answer_key ):
+def lg_main( data, answer_key, index = None ):
     params = {}
     file_name = "{}_best_params.json".format( answer_key )
     
-    if os.path.isfile( file_name ):
+    if os.path.isfile( file_name ) and not index == None:
         f = open( file_name, "r" )
-        params = json.load( f )
+        params = json.load( f )[index]
         f.close()
     else:
         params["learning_rate"] = 0.01
@@ -31,6 +31,7 @@ def lg_main( data, answer_key ):
 
     lgbm_params =  {
         #'task': 'train',
+        "random_state": 50,
         'boosting_type': 'gbdt',
         'objective': 'regression_l2',
         'metric': 'l2',
@@ -77,17 +78,21 @@ def importance_check( model, file_name ):
     for i in range( 0, len( result ) ):
         wf.write( "{}: {}\n".format( result[i]["key"], result[i]["score"] ) )        
 
-def main( data ):
+def main( data, state = "test" ):
     model_result = {}
     result = {}
+    #data_adjustment.teacher_stand( data, state = state )
     
     for answer_key in lib.predict_pace_key_list:
-        learn_data = data_adjustment.data_check( data, answer_key )
-        model_result[answer_key] = lg_main( learn_data, answer_key )
+        learn_data = data_adjustment.data_check( data, answer_key, state = state )
+        lib.dic_append( model_result, answer_key, [] )
+
+        for i in range( 0, 5 ):
+            model_result[answer_key].append( lg_main( learn_data, answer_key, index = i ) )
 
     for answer_key in lib.predict_pace_key_list:
         data_adjustment.score_check( data, model_result[answer_key], answer_key, result, score_years = lib.simu_years )
-        importance_check( model_result[answer_key], "{}_importance.txt".format( answer_key ) )
+        importance_check( model_result[answer_key][0], "{}_importance.txt".format( answer_key ) )
 
     dm.pickle_upload( "predict_pace_data.pickle", result )
-    dm.pickle_upload( lib.name.model_name(), model_result )    
+    dm.pickle_upload( lib.name.model_name(), model_result )

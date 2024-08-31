@@ -46,9 +46,6 @@ def main():
     s_check = parser.parse_args().s
     o_check = parser.parse_args().o
 
-    if s_check == 'prod':
-        lib.prod_check = True
-    
     learn_data = data_create.main( update = u_check )
     
     if not learn_data  == None:
@@ -58,7 +55,7 @@ def main():
             learn_data["teacher"][i] = data_remove( learn_data["teacher"][i], remove_list )
 
         if l_check:
-            base_learn.main( learn_data )
+            base_learn.main( learn_data, state = s_check )
         elif o_check:
             optuna_learn.main( learn_data )
                     
