@@ -284,15 +284,15 @@ class OnceData:
 
             for i in range( 0, 3 ):
                 try:
-                    t_instance["{}_".format(i+1)+data_key] = sort_data[i]
+                    t_instance[data_key+"_{}".format(i+1)] = sort_data[i]
                 except:
-                    t_instance["{}_".format(i+1)+data_key] = -1000
+                    t_instance[data_key+"_{}".format(i+1)] = -1000
 
             for i in range( 0, 3 ):
                 try:
-                    t_instance["reverse_{}_".format(i+1)+data_key] = reverse_sort_data[i]
+                    t_instance[data_key+"_reverse_{}".format(i+1)] = reverse_sort_data[i]
                 except:
-                    t_instance["reverse_{}_".format(i+1)+data_key] = -1000
+                    t_instance[data_key+"_reverse_{}".format(i+1)] = -1000
                 
             #for h_num in range( 0, 18 ):
             #    key = "{}_".format( h_num + 1 ) + data_key
