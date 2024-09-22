@@ -5,8 +5,8 @@ import numpy as np
 import lightgbm as lgb
 
 from learn import data_adjustment
-import sekitoba_library as lib
-import sekitoba_data_manage as dm
+import SekitobaLibrary as lib
+import SekitobaDataManage as dm
 #from learn import simulation
 
 def lg_main( data, answer_key, index = None ):

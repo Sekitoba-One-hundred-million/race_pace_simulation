@@ -3,8 +3,8 @@ import random
 import numpy as np
 from tqdm import tqdm
 
-import sekitoba_library as lib
-import sekitoba_data_manage as dm
+import SekitobaLibrary as lib
+import SekitobaDataManage as dm
 
 def teacher_stand( data, state = "test" ):
     data_list = []
