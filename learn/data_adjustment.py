@@ -13,7 +13,7 @@ def teacher_stand( data, state = "test" ):
         data_list.clear()
         
         for i in range( 0, len( data["answer"] ) ):
-            data_check = lib.test_year_check( data["year"][i], state )
+            data_check = lib.testYearCheck( data["year"][i], state )
 
             if not data_check == "teacher":
                 continue
@@ -33,7 +33,7 @@ def teacher_stand( data, state = "test" ):
         data_list.clear()
         
         for i in range( 0, len( data["teacher"] ) ):
-            data_check = lib.test_year_check( data["year"][i], state )
+            data_check = lib.testYearCheck( data["year"][i], state )
 
             if not data_check == "teacher":
                 continue
@@ -67,7 +67,7 @@ def data_check( data, answer_key, state = "test" ):
     for i in index_list:        
         current_data = data["teacher"][i]
         answer_pace = data["answer"][i][answer_key]
-        data_check = lib.test_year_check( data["year"][i], state )
+        data_check = lib.testYearCheck( data["year"][i], state )
 
         if data_check == "test":
             result["test_teacher"].append( current_data )
@@ -98,7 +98,7 @@ def score_check( data, \
     for i in range( 0, len( predict_data[0] ) ):
         race_id = data["race_id"][i]
         year = race_id[0:4]
-        lib.dic_append( result, race_id, {} )
+        lib.dicAppend( result, race_id, {} )
         p_data = 0
 
         for r in range( 0, len( predict_data ) ):
