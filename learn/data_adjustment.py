@@ -73,9 +73,6 @@ def data_check( data, answer_key, state = "test" ):
             result["test_teacher"].append( current_data )
             result["test_answer"].append( answer_pace )
         elif data_check == "teacher":
-            #if i in out_answer_index:
-            #    continue
-
             result["teacher"].append( current_data )
             result["answer"].append( answer_pace )
             

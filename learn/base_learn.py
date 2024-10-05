@@ -1,6 +1,7 @@
 import os
 import json
 import math
+import random
 import numpy as np
 import lightgbm as lgb
 
@@ -26,12 +27,21 @@ def lg_main( data, answer_key, index = None ):
         params["lambda_l1"] = 0
         params["lambda_l2"] = 0
 
+    p = list( zip( data["teacher"], data["answer"] ) )
+    test_p = list( zip( data["test_teacher"], data["test_answer"] ) )
+    random.shuffle( p )
+    random.shuffle( test_p )
+    data["teacher"], data["answer"] = zip(*p)
+    data["test_teacher"], data["test_answer"] = zip(*test_p)    
+    data["teacher"] = list( data["teacher"] )
+    data["answer"] = list( data["answer"] )
+    data["test_teacher"] = list( data["test_teacher"] )
+    data["test_answer"] = list( data["test_answer"] )
+
     lgb_train = lgb.Dataset( np.array( data["teacher"] ), np.array( data["answer"] ) )
     lgb_vaild = lgb.Dataset( np.array( data["test_teacher"] ), np.array( data["test_answer"] ) )
 
     lgbm_params =  {
-        #'task': 'train',
-        "random_state": 50,
         'boosting_type': 'gbdt',
         'objective': 'regression_l2',
         'metric': 'l2',
