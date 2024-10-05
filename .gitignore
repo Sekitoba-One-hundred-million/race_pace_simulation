@@ -4,3 +4,6 @@
 /learn/__pycache__/
 /learn/common/
 /common/__pycache__/
+
+.devenv/
+.direnv/

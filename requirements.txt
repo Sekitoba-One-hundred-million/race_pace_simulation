@@ -43,7 +43,6 @@ PyYAML==6.0.1
 requests==2.32.3
 s3transfer==0.10.2
 scipy==1.14.0
-SekitobaLibrary==1.0.0
 selenium==4.23.0
 six==1.16.0
 sniffio==1.3.1

@@ -1,6 +1,5 @@
 import math
 import copy
-import sklearn
 from tqdm import tqdm
 from mpi4py import MPI
 
