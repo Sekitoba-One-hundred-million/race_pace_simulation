@@ -24,6 +24,7 @@
       perSystem = { lib, config, self', inputs', pkgs, system, ... }:
         {
           devenv.shells.default = {
+            name = "race_pace_simulation";
             devenv.root =
               let
                 devenvRootFileContent = builtins.readFile devenv-root.outPath;
