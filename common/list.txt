@@ -87,6 +87,8 @@ race_trainer_first_passing_true_skill
 race_trainer_true_skill
 race_up3_trainer_true_skill
 race_speed_index
+race_up_speed_index
+race_pace_speed_index
 std_race_horce_first_passing_true_skill
 std_race_horce_true_skill
 std_race_up3_horce_true_skill
@@ -276,3 +278,16 @@ race_past_max_first_horce_body
 race_past_ave_first_horce_body
 race_past_std_first_horce_body
 race_stamina
+odds_cluster_1
+odds_cluster_2
+odds_cluster_3
+odds_cluster_4
+jockey_judgment_baba
+jockey_judgment_dist
+jockey_judgment_escape
+jockey_judgment_flame_num
+jockey_judgment_kind
+jockey_judgment_limb
+jockey_judgment_place
+jockey_judgment_popular
+corner_diff_rank_ave
