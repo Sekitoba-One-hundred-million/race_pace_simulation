@@ -90,13 +90,12 @@ def importance_check( model, file_name ):
 def main( data, state = "test" ):
     model_result = {}
     result = {}
-    #data_adjustment.teacher_stand( data, state = state )
     
     for answer_key in lib.predict_pace_key_list:
         learn_data = data_adjustment.data_check( data, answer_key, state = state )
         lib.dicAppend( model_result, answer_key, [] )
 
-        for i in range( 0, 5 ):
+        for i in range( 0, 10 ):
             model_result[answer_key].append( lg_main( learn_data, answer_key, index = i ) )
 
     for answer_key in lib.predict_pace_key_list:

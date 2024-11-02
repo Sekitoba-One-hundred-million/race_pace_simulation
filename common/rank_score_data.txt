@@ -22,6 +22,7 @@ odds_cluster_4
 ave_race_match_up3
 max_race_match_up3
 min_race_match_up3
+std_race_match_up3
 race_match_up3_1
 race_match_up3_2
 race_match_up3_3
@@ -31,6 +32,7 @@ race_match_up3_reverse_3
 ave_race_level_score
 max_race_level_score
 min_race_level_score
+std_race_level_score
 race_level_score_1
 race_level_score_2
 race_level_score_3
@@ -40,6 +42,7 @@ race_level_score_reverse_3
 ave_race_level_up3
 max_race_level_up3
 min_race_level_up3
+std_race_level_up3
 race_level_up3_1
 race_level_up3_2
 race_level_up3_3
@@ -49,6 +52,7 @@ race_level_up3_reverse_3
 ave_race_pace_up_rate_ave
 max_race_pace_up_rate_ave
 min_race_pace_up_rate_ave
+std_race_pace_up_rate_ave
 race_pace_up_rate_ave_1
 race_pace_up_rate_ave_2
 race_pace_up_rate_ave_3
@@ -58,6 +62,7 @@ race_pace_up_rate_ave_reverse_3
 ave_race_pace_up_rate_conv
 max_race_pace_up_rate_conv
 min_race_pace_up_rate_conv
+std_race_pace_up_rate_conv
 race_pace_up_rate_conv_1
 race_pace_up_rate_conv_2
 race_pace_up_rate_conv_3
@@ -67,6 +72,7 @@ race_pace_up_rate_conv_reverse_3
 ave_race_pace_up_rate_max
 max_race_pace_up_rate_max
 min_race_pace_up_rate_max
+std_race_pace_up_rate_max
 race_pace_up_rate_max_1
 race_pace_up_rate_max_2
 race_pace_up_rate_max_3
@@ -76,6 +82,7 @@ race_pace_up_rate_max_reverse_3
 ave_race_pace_up_rate_min
 max_race_pace_up_rate_min
 min_race_pace_up_rate_min
+std_race_pace_up_rate_min
 race_pace_up_rate_min_1
 race_pace_up_rate_min_2
 race_pace_up_rate_min_3
@@ -85,6 +92,7 @@ race_pace_up_rate_min_reverse_3
 ave_race_horce_first_passing_true_skill
 max_race_horce_first_passing_true_skill
 min_race_horce_first_passing_true_skill
+std_race_horce_first_passing_true_skill
 race_horce_first_passing_true_skill_1
 race_horce_first_passing_true_skill_2
 race_horce_first_passing_true_skill_3
@@ -94,6 +102,7 @@ race_horce_first_passing_true_skill_reverse_3
 ave_race_horce_true_skill
 max_race_horce_true_skill
 min_race_horce_true_skill
+std_race_horce_true_skill
 race_horce_true_skill_1
 race_horce_true_skill_2
 race_horce_true_skill_3
@@ -103,6 +112,7 @@ race_horce_true_skill_reverse_3
 ave_race_up3_horce_true_skill
 max_race_up3_horce_true_skill
 min_race_up3_horce_true_skill
+std_race_up3_horce_true_skill
 race_up3_horce_true_skill_1
 race_up3_horce_true_skill_2
 race_up3_horce_true_skill_3
@@ -112,6 +122,7 @@ race_up3_horce_true_skill_reverse_3
 ave_race_jockey_first_passing_true_skill
 max_race_jockey_first_passing_true_skill
 min_race_jockey_first_passing_true_skill
+std_race_jockey_first_passing_true_skill
 race_jockey_first_passing_true_skill_1
 race_jockey_first_passing_true_skill_2
 race_jockey_first_passing_true_skill_3
@@ -121,6 +132,7 @@ race_jockey_first_passing_true_skill_reverse_3
 ave_race_jockey_true_skill
 max_race_jockey_true_skill
 min_race_jockey_true_skill
+std_race_jockey_true_skill
 race_jockey_true_skill_1
 race_jockey_true_skill_2
 race_jockey_true_skill_3
@@ -130,6 +142,7 @@ race_jockey_true_skill_reverse_3
 ave_race_up3_jockey_true_skill
 max_race_up3_jockey_true_skill
 min_race_up3_jockey_true_skill
+std_race_up3_jockey_true_skill
 race_up3_jockey_true_skill_1
 race_up3_jockey_true_skill_2
 race_up3_jockey_true_skill_3
@@ -139,6 +152,7 @@ race_up3_jockey_true_skill_reverse_3
 ave_race_trainer_first_passing_true_skill
 max_race_trainer_first_passing_true_skill
 min_race_trainer_first_passing_true_skill
+std_race_trainer_first_passing_true_skill
 race_trainer_first_passing_true_skill_1
 race_trainer_first_passing_true_skill_2
 race_trainer_first_passing_true_skill_3
@@ -148,6 +162,7 @@ race_trainer_first_passing_true_skill_reverse_3
 ave_race_trainer_true_skill
 max_race_trainer_true_skill
 min_race_trainer_true_skill
+std_race_trainer_true_skill
 race_trainer_true_skill_1
 race_trainer_true_skill_2
 race_trainer_true_skill_3
@@ -157,6 +172,7 @@ race_trainer_true_skill_reverse_3
 ave_race_up3_trainer_true_skill
 max_race_up3_trainer_true_skill
 min_race_up3_trainer_true_skill
+std_race_up3_trainer_true_skill
 race_up3_trainer_true_skill_1
 race_up3_trainer_true_skill_2
 race_up3_trainer_true_skill_3
@@ -166,6 +182,7 @@ race_up3_trainer_true_skill_reverse_3
 ave_race_speed_index
 max_race_speed_index
 min_race_speed_index
+std_race_speed_index
 race_speed_index_1
 race_speed_index_2
 race_speed_index_3
@@ -175,6 +192,7 @@ race_speed_index_reverse_3
 ave_race_up_speed_index
 max_race_up_speed_index
 min_race_up_speed_index
+std_race_up_speed_index
 race_up_speed_index_1
 race_up_speed_index_2
 race_up_speed_index_3
@@ -184,6 +202,7 @@ race_up_speed_index_reverse_3
 ave_race_pace_speed_index
 max_race_pace_speed_index
 min_race_pace_speed_index
+std_race_pace_speed_index
 race_pace_speed_index_1
 race_pace_speed_index_2
 race_pace_speed_index_3
@@ -193,6 +212,7 @@ race_pace_speed_index_reverse_3
 ave_race_up_rate
 max_race_up_rate
 min_race_up_rate
+std_race_up_rate
 race_up_rate_1
 race_up_rate_2
 race_up_rate_3
@@ -202,6 +222,7 @@ race_up_rate_reverse_3
 ave_race_before_diff
 max_race_before_diff
 min_race_before_diff
+std_race_before_diff
 race_before_diff_1
 race_before_diff_2
 race_before_diff_3
@@ -211,6 +232,7 @@ race_before_diff_reverse_3
 ave_race_before_first_passing_rank
 max_race_before_first_passing_rank
 min_race_before_first_passing_rank
+std_race_before_first_passing_rank
 race_before_first_passing_rank_1
 race_before_first_passing_rank_2
 race_before_first_passing_rank_3
@@ -220,6 +242,7 @@ race_before_first_passing_rank_reverse_3
 ave_race_before_id_weight
 max_race_before_id_weight
 min_race_before_id_weight
+std_race_before_id_weight
 race_before_id_weight_1
 race_before_id_weight_2
 race_before_id_weight_3
@@ -229,6 +252,7 @@ race_before_id_weight_reverse_3
 ave_race_before_last_passing_rank
 max_race_before_last_passing_rank
 min_race_before_last_passing_rank
+std_race_before_last_passing_rank
 race_before_last_passing_rank_1
 race_before_last_passing_rank_2
 race_before_last_passing_rank_3
@@ -238,6 +262,7 @@ race_before_last_passing_rank_reverse_3
 ave_race_before_popular
 max_race_before_popular
 min_race_before_popular
+std_race_before_popular
 race_before_popular_1
 race_before_popular_2
 race_before_popular_3
@@ -247,6 +272,7 @@ race_before_popular_reverse_3
 ave_race_before_race_score
 max_race_before_race_score
 min_race_before_race_score
+std_race_before_race_score
 race_before_race_score_1
 race_before_race_score_2
 race_before_race_score_3
@@ -256,6 +282,7 @@ race_before_race_score_reverse_3
 ave_race_before_rank
 max_race_before_rank
 min_race_before_rank
+std_race_before_rank
 race_before_rank_1
 race_before_rank_2
 race_before_rank_3
@@ -265,6 +292,7 @@ race_before_rank_reverse_3
 ave_race_before_speed
 max_race_before_speed
 min_race_before_speed
+std_race_before_speed
 race_before_speed_1
 race_before_speed_2
 race_before_speed_3
@@ -274,6 +302,7 @@ race_before_speed_reverse_3
 ave_race_leading_power_ave
 max_race_leading_power_ave
 min_race_leading_power_ave
+std_race_leading_power_ave
 race_leading_power_ave_1
 race_leading_power_ave_2
 race_leading_power_ave_3
@@ -283,6 +312,7 @@ race_leading_power_ave_reverse_3
 ave_race_leading_power_min
 max_race_leading_power_min
 min_race_leading_power_min
+std_race_leading_power_min
 race_leading_power_min_1
 race_leading_power_min_2
 race_leading_power_min_3
@@ -292,6 +322,7 @@ race_leading_power_min_reverse_3
 ave_race_leading_power_max
 max_race_leading_power_max
 min_race_leading_power_max
+std_race_leading_power_max
 race_leading_power_max_1
 race_leading_power_max_2
 race_leading_power_max_3
@@ -301,6 +332,7 @@ race_leading_power_max_reverse_3
 ave_race_leading_power_rate_ave
 max_race_leading_power_rate_ave
 min_race_leading_power_rate_ave
+std_race_leading_power_rate_ave
 race_leading_power_rate_ave_1
 race_leading_power_rate_ave_2
 race_leading_power_rate_ave_3
@@ -310,6 +342,7 @@ race_leading_power_rate_ave_reverse_3
 ave_race_leading_power_rate_max
 max_race_leading_power_rate_max
 min_race_leading_power_rate_max
+std_race_leading_power_rate_max
 race_leading_power_rate_max_1
 race_leading_power_rate_max_2
 race_leading_power_rate_max_3
@@ -319,6 +352,7 @@ race_leading_power_rate_max_reverse_3
 ave_race_leading_power_rate_min
 max_race_leading_power_rate_min
 min_race_leading_power_rate_min
+std_race_leading_power_rate_min
 race_leading_power_rate_min_1
 race_leading_power_rate_min_2
 race_leading_power_rate_min_3
@@ -328,6 +362,7 @@ race_leading_power_rate_min_reverse_3
 ave_race_pursuing_power_ave
 max_race_pursuing_power_ave
 min_race_pursuing_power_ave
+std_race_pursuing_power_ave
 race_pursuing_power_ave_1
 race_pursuing_power_ave_2
 race_pursuing_power_ave_3
@@ -337,6 +372,7 @@ race_pursuing_power_ave_reverse_3
 ave_race_pursuing_power_min
 max_race_pursuing_power_min
 min_race_pursuing_power_min
+std_race_pursuing_power_min
 race_pursuing_power_min_1
 race_pursuing_power_min_2
 race_pursuing_power_min_3
@@ -346,6 +382,7 @@ race_pursuing_power_min_reverse_3
 ave_race_pursuing_power_max
 max_race_pursuing_power_max
 min_race_pursuing_power_max
+std_race_pursuing_power_max
 race_pursuing_power_max_1
 race_pursuing_power_max_2
 race_pursuing_power_max_3
@@ -355,6 +392,7 @@ race_pursuing_power_max_reverse_3
 ave_race_endurance_power_ave
 max_race_endurance_power_ave
 min_race_endurance_power_ave
+std_race_endurance_power_ave
 race_endurance_power_ave_1
 race_endurance_power_ave_2
 race_endurance_power_ave_3
@@ -364,6 +402,7 @@ race_endurance_power_ave_reverse_3
 ave_race_endurance_power_min
 max_race_endurance_power_min
 min_race_endurance_power_min
+std_race_endurance_power_min
 race_endurance_power_min_1
 race_endurance_power_min_2
 race_endurance_power_min_3
@@ -373,6 +412,7 @@ race_endurance_power_min_reverse_3
 ave_race_endurance_power_max
 max_race_endurance_power_max
 min_race_endurance_power_max
+std_race_endurance_power_max
 race_endurance_power_max_1
 race_endurance_power_max_2
 race_endurance_power_max_3
@@ -382,6 +422,7 @@ race_endurance_power_max_reverse_3
 ave_race_sustain_power_ave
 max_race_sustain_power_ave
 min_race_sustain_power_ave
+std_race_sustain_power_ave
 race_sustain_power_ave_1
 race_sustain_power_ave_2
 race_sustain_power_ave_3
@@ -391,6 +432,7 @@ race_sustain_power_ave_reverse_3
 ave_race_sustain_power_min
 max_race_sustain_power_min
 min_race_sustain_power_min
+std_race_sustain_power_min
 race_sustain_power_min_1
 race_sustain_power_min_2
 race_sustain_power_min_3
@@ -400,6 +442,7 @@ race_sustain_power_min_reverse_3
 ave_race_sustain_power_max
 max_race_sustain_power_max
 min_race_sustain_power_max
+std_race_sustain_power_max
 race_sustain_power_max_1
 race_sustain_power_max_2
 race_sustain_power_max_3
@@ -409,6 +452,7 @@ race_sustain_power_max_reverse_3
 ave_race_explosive_power_ave
 max_race_explosive_power_ave
 min_race_explosive_power_ave
+std_race_explosive_power_ave
 race_explosive_power_ave_1
 race_explosive_power_ave_2
 race_explosive_power_ave_3
@@ -418,6 +462,7 @@ race_explosive_power_ave_reverse_3
 ave_race_explosive_power_min
 max_race_explosive_power_min
 min_race_explosive_power_min
+std_race_explosive_power_min
 race_explosive_power_min_1
 race_explosive_power_min_2
 race_explosive_power_min_3
@@ -427,6 +472,7 @@ race_explosive_power_min_reverse_3
 ave_race_explosive_power_max
 max_race_explosive_power_max
 min_race_explosive_power_max
+std_race_explosive_power_max
 race_explosive_power_max_1
 race_explosive_power_max_2
 race_explosive_power_max_3
@@ -436,6 +482,7 @@ race_explosive_power_max_reverse_3
 ave_race_past_min_first_horce_body
 max_race_past_min_first_horce_body
 min_race_past_min_first_horce_body
+std_race_past_min_first_horce_body
 race_past_min_first_horce_body_1
 race_past_min_first_horce_body_2
 race_past_min_first_horce_body_3
@@ -445,6 +492,7 @@ race_past_min_first_horce_body_reverse_3
 ave_race_past_max_first_horce_body
 max_race_past_max_first_horce_body
 min_race_past_max_first_horce_body
+std_race_past_max_first_horce_body
 race_past_max_first_horce_body_1
 race_past_max_first_horce_body_2
 race_past_max_first_horce_body_3
@@ -454,6 +502,7 @@ race_past_max_first_horce_body_reverse_3
 ave_race_past_ave_first_horce_body
 max_race_past_ave_first_horce_body
 min_race_past_ave_first_horce_body
+std_race_past_ave_first_horce_body
 race_past_ave_first_horce_body_1
 race_past_ave_first_horce_body_2
 race_past_ave_first_horce_body_3
@@ -463,6 +512,7 @@ race_past_ave_first_horce_body_reverse_3
 ave_race_past_std_first_horce_body
 max_race_past_std_first_horce_body
 min_race_past_std_first_horce_body
+std_race_past_std_first_horce_body
 race_past_std_first_horce_body_1
 race_past_std_first_horce_body_2
 race_past_std_first_horce_body_3
@@ -472,6 +522,7 @@ race_past_std_first_horce_body_reverse_3
 ave_race_stamina
 max_race_stamina
 min_race_stamina
+std_race_stamina
 race_stamina_1
 race_stamina_2
 race_stamina_3
@@ -481,6 +532,7 @@ race_stamina_reverse_3
 ave_jockey_judgment_baba
 max_jockey_judgment_baba
 min_jockey_judgment_baba
+std_jockey_judgment_baba
 jockey_judgment_baba_1
 jockey_judgment_baba_2
 jockey_judgment_baba_3
@@ -490,6 +542,7 @@ jockey_judgment_baba_reverse_3
 ave_jockey_judgment_dist
 max_jockey_judgment_dist
 min_jockey_judgment_dist
+std_jockey_judgment_dist
 jockey_judgment_dist_1
 jockey_judgment_dist_2
 jockey_judgment_dist_3
@@ -499,6 +552,7 @@ jockey_judgment_dist_reverse_3
 ave_jockey_judgment_flame_num
 max_jockey_judgment_flame_num
 min_jockey_judgment_flame_num
+std_jockey_judgment_flame_num
 jockey_judgment_flame_num_1
 jockey_judgment_flame_num_2
 jockey_judgment_flame_num_3
@@ -508,6 +562,7 @@ jockey_judgment_flame_num_reverse_3
 ave_jockey_judgment_kind
 max_jockey_judgment_kind
 min_jockey_judgment_kind
+std_jockey_judgment_kind
 jockey_judgment_kind_1
 jockey_judgment_kind_2
 jockey_judgment_kind_3
@@ -517,6 +572,7 @@ jockey_judgment_kind_reverse_3
 ave_jockey_judgment_limb
 max_jockey_judgment_limb
 min_jockey_judgment_limb
+std_jockey_judgment_limb
 jockey_judgment_limb_1
 jockey_judgment_limb_2
 jockey_judgment_limb_3
@@ -526,6 +582,7 @@ jockey_judgment_limb_reverse_3
 ave_jockey_judgment_place
 max_jockey_judgment_place
 min_jockey_judgment_place
+std_jockey_judgment_place
 jockey_judgment_place_1
 jockey_judgment_place_2
 jockey_judgment_place_3
@@ -535,6 +592,7 @@ jockey_judgment_place_reverse_3
 ave_jockey_judgment_popular
 max_jockey_judgment_popular
 min_jockey_judgment_popular
+std_jockey_judgment_popular
 jockey_judgment_popular_1
 jockey_judgment_popular_2
 jockey_judgment_popular_3
@@ -544,6 +602,7 @@ jockey_judgment_popular_reverse_3
 ave_corner_diff_rank_ave
 max_corner_diff_rank_ave
 min_corner_diff_rank_ave
+std_corner_diff_rank_ave
 corner_diff_rank_ave_1
 corner_diff_rank_ave_2
 corner_diff_rank_ave_3

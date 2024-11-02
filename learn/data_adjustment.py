@@ -88,13 +88,13 @@ def score_check( data, \
     for model in models:
         predict_data.append( model.predict( np.array( data["teacher"] ) ) )
 
-    #_, min_line_data, max_line_data = out_answer_index_create( data["answer"], data["year"], answer_key )
     score = 0
     count = 0
     
     for i in range( 0, len( predict_data[0] ) ):
         race_id = data["race_id"][i]
         year = race_id[0:4]
+        ave_data = data["ave"][i][answer_key]
         lib.dicAppend( result, race_id, {} )
         p_data = 0
 
@@ -102,10 +102,7 @@ def score_check( data, \
             p_data += predict_data[r][i]
 
         p_data /= len( predict_data )
-        result[race_id][answer_key] = p_data
-
-        #if p_data < min_line_data or max_line_data < p_data:
-        #    continue
+        result[race_id][answer_key] = p_data + ave_data
 
         if year in lib.score_years:
             score += math.pow( p_data - data["answer"][i][answer_key], 2 )

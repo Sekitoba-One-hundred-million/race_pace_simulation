@@ -77,8 +77,13 @@ def main( update = False ):
         key_list = key_list_search( rank, size, sorted( list( od.race_data.get_all_race_id() ) ) )
 
         if rank == 1:
+            c = len( key_list )
             for k in tqdm( key_list ):
                 od.create( k )
+                c -= 1
+
+                if c % 500 == 0:
+                    print( "" )
         else:
             for k in key_list:
                 od.create( k )

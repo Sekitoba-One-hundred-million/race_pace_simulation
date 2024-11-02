@@ -58,7 +58,7 @@ def main( data ):
         param_list = []
         use_data = data_adjustment.data_check( data, answer_key, state = "optuna" )
 
-        for i in range( 0, 5 ):
+        for i in range( 0, 10 ):
             study = optuna.create_study()
             study.optimize(objective, n_trials=100)
             param_list.append( study.best_params )

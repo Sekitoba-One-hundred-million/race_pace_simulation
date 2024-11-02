@@ -18,6 +18,7 @@ from common.name import Name
 data_name = Name()
 
 dm.dl.file_set( "race_cource_info.pickle" )
+dm.dl.file_set( "race_pace_analyze_data.pickle" )
 
 class OnceData:
     def __init__( self ):
@@ -29,11 +30,12 @@ class OnceData:
         self.time_index = TimeIndexGet( self.horce_data )
         self.before_race_score = BeforeRaceScore( self.race_data )
         self.race_cource_info = dm.dl.data_get( "race_cource_info.pickle" )
+        self.race_pace_analyze_data = dm.dl.data_get( "race_pace_analyze_data.pickle" )
         self.jockey_judgement_param_list = [ "limb", "popular", "flame_num", "dist", "kind", "baba", "place" ]
         
         self.data_name_list = []
         self.write_data_list = []
-        self.result = { "answer": [], "teacher": [], "year": [], "race_id": [] }
+        self.result = { "answer": [], "teacher": [], "year": [], "race_id": [], "ave": [] }
         self.data_name_read()
 
     def data_name_read( self ):
@@ -231,7 +233,7 @@ class OnceData:
 
         for cl in oddsCluster.cluster.values():
             cluster_data[int(cl-1)] += 1
-        
+
         t_instance = {}
         t_instance[data_name.all_horce_num] = N
         t_instance[data_name.place] = self.race_data.data["place"]
@@ -260,7 +262,8 @@ class OnceData:
 
         if not type( one_hudred_pace ) == list:
             return
-            
+
+        ave_data = {}
         answer_data["pace"] = round( lib.paceData( self.race_data.data["wrap"] ), 1 )
         answer_data["pace_regression"], answer_data["before_pace_regression"], answer_data["after_pace_regression"] = \
           lib.paceRegression( one_hudred_pace )
@@ -268,9 +271,14 @@ class OnceData:
         answer_data["first_up3"] = sum( one_hudred_pace[0:6] )
         answer_data["last_up3"] = sum( one_hudred_pace[int(len(one_hudred_pace)-6):len(one_hudred_pace)] )
 
+        for k in answer_data.keys():
+            answer_data[k] -= self.race_pace_analyze_data[key_kind][key_dist][k]
+            ave_data[k] = self.race_pace_analyze_data[key_kind][key_dist][k]
+
         t_list = self.data_list_create( t_instance )
 
         self.result["answer"].append( answer_data )
         self.result["teacher"].append( t_list )
         self.result["year"].append( year )
         self.result["race_id"].append( race_id )
+        self.result["ave"].append( ave_data )
