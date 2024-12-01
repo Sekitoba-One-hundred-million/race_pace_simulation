@@ -12,6 +12,7 @@ from SekitobaDataCreate.before_race_score_get import BeforeRaceScore
 from SekitobaDataCreate.stride_ablity import StrideAblity
 from SekitobaDataCreate.get_horce_data import GetHorceData
 from SekitobaDataCreate.odds_cluster import OddsCluster
+from SekitobaDataCreate.kinetic_energy import KineticEnergy
 
 from common.name import Name
 
@@ -26,6 +27,7 @@ class OnceData:
         self.race_horce_data = ps.RaceHorceData()
         self.horce_data = ps.HorceData()
 
+        self.kinetic_energy = KineticEnergy( self.race_data )
         self.stride_ablity = StrideAblity( self.race_data )
         self.time_index = TimeIndexGet( self.horce_data )
         self.before_race_score = BeforeRaceScore( self.race_data )
@@ -144,7 +146,28 @@ class OnceData:
             before_rank = getHorceData.getBeforeRank()
             before_speed = getHorceData.getBeforeSpeed()
             before_race_score = self.before_race_score.score_get( horce_id, getHorceData )
+            horce_first_up3_halon = {}
+            race_first_up3_ave = -1000
+            race_first_up3_min = -1000
+            race_first_up3_max = -1000
 
+            try:
+                horce_first_up3_halon = self.race_data.data["first_up3_halon"][str(int(cd.horceNumber()))]
+            except:
+                pass
+
+            if not len( horce_first_up3_halon ) == 0:
+                race_first_up3_ave = 0
+                race_first_up3_min = 1000
+                race_first_up3_max = -1000
+                
+                for k in horce_first_up3_halon.keys():
+                    race_first_up3_ave += horce_first_up3_halon[k]
+                    race_first_up3_min = min( race_first_up3_min, horce_first_up3_halon[k] )
+                    race_first_up3_max = max( race_first_up3_max, horce_first_up3_halon[k] )
+
+                race_first_up3_ave /= len( horce_first_up3_halon )                    
+                
             if getHorceData.limb_math == 1 or getHorceData.limb_math == 2:
                 escape_limb_count += 1
             elif getHorceData.limb_math == 3 or getHorceData.limb_math == 4:
@@ -221,6 +244,10 @@ class OnceData:
             current_race_data[data_name.race_past_std_first_horce_body].append( past_std_first_horce_body )
             current_race_data[data_name.race_stamina].append( pd.stamina_create( getHorceData.key_limb ) )
             current_race_data[data_name.corner_diff_rank_ave].append( pd.corner_diff_rank() )
+            current_race_data[data_name.race_first_up3_ave].append( race_first_up3_ave )
+            current_race_data[data_name.race_first_up3_min].append( race_first_up3_min )
+            current_race_data[data_name.race_first_up3_max].append( race_first_up3_max )
+            current_race_data[data_name.race_kinetic_energy].append( self.kinetic_energy.create( cd, pd ) )
 
         N = len( current_race_data[data_name.race_up_rate] )
 

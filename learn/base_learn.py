@@ -14,7 +14,7 @@ def lg_main( data, answer_key, index = None ):
     params = {}
     file_name = "{}_best_params.json".format( answer_key )
     
-    if os.path.isfile( file_name ) and not index == None:
+    if os.path.isfile( file_name ) and not index is None:
         f = open( file_name, "r" )
         params = json.load( f )[index]
         f.close()
