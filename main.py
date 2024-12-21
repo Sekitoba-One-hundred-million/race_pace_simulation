@@ -47,7 +47,7 @@ def main():
     o_check = parser.parse_args().o
 
     learn_data = data_create.main( update = u_check )
-    
+
     if not learn_data  == None:
         remove_list = data_score_read()
 
