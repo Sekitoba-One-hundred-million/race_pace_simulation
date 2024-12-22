@@ -266,7 +266,7 @@ class OnceData:
         t_instance[data_name.place] = self.race_data.data["place"]
         t_instance[data_name.baba] = self.race_data.data["baba"]
         t_instance[data_name.dist] = self.race_data.data["dist"]
-        t_instance[data_name.kind] = self.race_data.data["place"]
+        t_instance[data_name.kind] = self.race_data.data["kind"]
         t_instance[data_name.money_class] = money_class
         t_instance[data_name.escape_limb_count] = escape_limb_count
         t_instance[data_name.insert_limb_count] = insert_limb_count
