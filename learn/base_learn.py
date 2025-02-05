@@ -93,7 +93,7 @@ def main( data, state = "test" ):
     
     for answer_key in lib.predict_pace_key_list:
         learn_data = data_adjustment.data_check( data, answer_key, state = state )
-        lib.dicAppend( model_result, answer_key, [] )
+        lib.dic_append( model_result, answer_key, [] )
 
         for i in range( 0, 10 ):
             model_result[answer_key].append( lg_main( learn_data, answer_key, index = i ) )

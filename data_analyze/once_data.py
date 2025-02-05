@@ -100,8 +100,8 @@ class OnceData:
         if key_kind == "0" or key_kind == "3":
             return
 
-        predict_netkeiba_pace = lib.netkeibaPace( self.race_data.data["predict_netkeiba_pace"] )
-        money_class = int( lib.moneyClassGet( self.race_data.data["money"] ) )
+        predict_netkeiba_pace = lib.netkeiba_pace( self.race_data.data["predict_netkeiba_pace"] )
+        money_class = int( lib.money_class_get( self.race_data.data["money"] ) )
         key_race_money_class = str( money_class )
         teacher_data = []
         answer_data = []
@@ -131,11 +131,11 @@ class OnceData:
             current_race_data[data_key] = []
 
         for horce_id in self.race_horce_data.horce_id_list:
-            current_data, past_data = lib.raceCheck( self.horce_data.data[horce_id]["past_data"], ymd )
+            current_data, past_data = lib.race_check( self.horce_data.data[horce_id]["past_data"], ymd )
             cd = lib.CurrentData( current_data )
             pd = lib.PastData( past_data, current_data, self.race_data )
 
-            if not cd.raceCheck():
+            if not cd.race_check():
                 continue
 
             getHorceData = GetHorceData( cd, pd )
@@ -152,7 +152,7 @@ class OnceData:
             race_first_up3_max = -1000
 
             try:
-                horce_first_up3_halon = self.race_data.data["first_up3_halon"][str(int(cd.horceNumber()))]
+                horce_first_up3_halon = self.race_data.data["first_up3_halon"][str(int(cd.horce_number()))]
             except:
                 pass
 
@@ -196,8 +196,8 @@ class OnceData:
             up3_horce_true_skill = self.race_horce_data.data[horce_id]["horce_up3_true_skill"]
             up3_jockey_true_skill = self.race_horce_data.data[horce_id]["jockey_up3_true_skill"]
             up3_trainer_true_skill = self.race_horce_data.data[horce_id]["trainer_up3_true_skill"]
-            current_time_index = self.time_index.main( horce_id, pd.pastDayList() )
-            speed, up_speed, pace_speed = pd.speedIndex( self.horce_data.data[horce_id]["baba_index"] )
+            current_time_index = self.time_index.main( horce_id, pd.past_day_list() )
+            speed, up_speed, pace_speed = pd.speed_index( self.horce_data.data[horce_id]["baba_index"] )
             pace_up_rate = pd.pace_up_rate()
             stride_ablity_data = self.stride_ablity.ablity_create( cd, pd )
             past_min_first_horce_body, past_max_first_horce_body, past_ave_first_horce_body, past_std_first_horce_body = \
@@ -224,9 +224,9 @@ class OnceData:
             current_race_data[data_name.race_up3_trainer_true_skill].append( up3_trainer_true_skill )
             current_race_data[data_name.race_up_rate].append(
                 pd.up_rate( key_race_money_class, self.race_data.data["up_kind_ave"] ) )
-            current_race_data[data_name.race_speed_index].append( lib.maxCheck( speed ) + current_time_index["max"] )
-            current_race_data[data_name.race_up_speed_index].append( lib.maxCheck( up_speed ) )
-            current_race_data[data_name.race_pace_speed_index].append( lib.maxCheck( pace_speed ) )
+            current_race_data[data_name.race_speed_index].append( lib.max_check( speed ) + current_time_index["max"] )
+            current_race_data[data_name.race_up_speed_index].append( lib.max_check( up_speed ) )
+            current_race_data[data_name.race_pace_speed_index].append( lib.max_check( pace_speed ) )
             current_race_data[data_name.race_before_diff].append( before_diff )
             current_race_data[data_name.race_before_first_passing_rank].append( before_first_passing_rank )
             current_race_data[data_name.race_before_last_passing_rank].append( before_last_passing_rank )
@@ -235,7 +235,7 @@ class OnceData:
             current_race_data[data_name.race_before_race_score].append( before_race_score )
             current_race_data[data_name.race_before_rank].append( before_rank )
             current_race_data[data_name.race_before_speed].append( before_speed )
-            current_race_data[data_name.race_match_up3].append( pd.matchUp3() )
+            current_race_data[data_name.race_match_up3].append( pd.match_up3() )
             current_race_data[data_name.race_level_score].append( pd.level_score( self.race_data.data["money_class_true_skill"] ) )
             current_race_data[data_name.race_level_up3].append( pd.level_up3( self.race_data.data["money_class_true_skill"] ) )
             current_race_data[data_name.race_past_min_first_horce_body].append( past_min_first_horce_body )
@@ -283,17 +283,17 @@ class OnceData:
         t_instance[data_name.odds_cluster_2] = cluster_data[1]
         t_instance[data_name.odds_cluster_3] = cluster_data[2]
         t_instance[data_name.odds_cluster_4] = cluster_data[3]
-        t_instance.update( lib.paceTeacherAnalyze( current_race_data ) )
+        t_instance.update( lib.pace_teacher_analyze( current_race_data ) )
         answer_data = {}
-        one_hudred_pace = lib.oneHundredPace( self.race_data.data["wrap"] )
+        one_hudred_pace = lib.one_hundred_pace( self.race_data.data["wrap"] )
 
         if not type( one_hudred_pace ) == list:
             return
 
         ave_data = {}
-        answer_data["pace"] = round( lib.paceData( self.race_data.data["wrap"] ), 1 )
+        answer_data["pace"] = round( lib.pace_data( self.race_data.data["wrap"] ), 1 )
         answer_data["pace_regression"], answer_data["before_pace_regression"], answer_data["after_pace_regression"] = \
-          lib.paceRegression( one_hudred_pace )
+          lib.pace_regression( one_hudred_pace )
         answer_data["pace_conv"] = lib.conv( one_hudred_pace )
         answer_data["first_up3"] = sum( one_hudred_pace[0:6] )
         answer_data["last_up3"] = sum( one_hudred_pace[int(len(one_hudred_pace)-6):len(one_hudred_pace)] )
