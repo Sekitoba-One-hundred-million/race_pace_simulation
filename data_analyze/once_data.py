@@ -198,7 +198,7 @@ class OnceData:
             up3_trainer_true_skill = self.race_horce_data.data[horce_id]["trainer_up3_true_skill"]
             current_time_index = self.time_index.main( horce_id, pd.past_day_list() )
             speed, up_speed, pace_speed = pd.speed_index( self.horce_data.data[horce_id]["baba_index"] )
-            pace_up_rate = pd.pace_up_rate()
+            #pace_up_rate = pd.pace_up_rate()
             stride_ablity_data = self.stride_ablity.ablity_create( cd, pd )
             past_min_first_horce_body, past_max_first_horce_body, past_ave_first_horce_body, past_std_first_horce_body = \
               getHorceData.getFirstHorceBody()
@@ -210,8 +210,8 @@ class OnceData:
                 current_race_data["jockey_judgment_{}".format( param )].append(
                     self.race_horce_data.data[horce_id]["jockey_judgment"][param] )
 
-            for pace_up_rate_key in pace_up_rate.keys():
-                current_race_data[data_name.race_pace_up_rate+"_"+pace_up_rate_key].append( pace_up_rate[pace_up_rate_key] )
+            #for pace_up_rate_key in pace_up_rate.keys():
+            #    current_race_data[data_name.race_pace_up_rate+"_"+pace_up_rate_key].append( pace_up_rate[pace_up_rate_key] )
 
             current_race_data[data_name.race_horce_true_skill].append( horce_true_skill )
             current_race_data[data_name.race_jockey_true_skill].append( jockey_true_skill )
@@ -270,19 +270,19 @@ class OnceData:
         t_instance[data_name.money_class] = money_class
         t_instance[data_name.escape_limb_count] = escape_limb_count
         t_instance[data_name.insert_limb_count] = insert_limb_count
-        t_instance[data_name.one_popular_limb] = one_popular_limb
-        t_instance[data_name.two_popular_limb] = two_popular_limb
-        t_instance[data_name.three_popular_limb] = three_popular_limb
-        t_instance[data_name.one_popular_odds] = one_popular_odds
-        t_instance[data_name.two_popular_odds] = two_popular_odds
-        t_instance[data_name.three_popular_odds] = three_popular_odds
+        #t_instance[data_name.one_popular_limb] = one_popular_limb
+        #t_instance[data_name.two_popular_limb] = two_popular_limb
+        #t_instance[data_name.three_popular_limb] = three_popular_limb
+        #t_instance[data_name.one_popular_odds] = one_popular_odds
+        #t_instance[data_name.two_popular_odds] = two_popular_odds
+        #t_instance[data_name.three_popular_odds] = three_popular_odds
         t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
         t_instance[data_name.first_straight_dist] = first_straight_dist
         t_instance[data_name.last_straight_dist] = last_straight_dist
-        t_instance[data_name.odds_cluster_1] = cluster_data[0]
-        t_instance[data_name.odds_cluster_2] = cluster_data[1]
-        t_instance[data_name.odds_cluster_3] = cluster_data[2]
-        t_instance[data_name.odds_cluster_4] = cluster_data[3]
+        #t_instance[data_name.odds_cluster_1] = cluster_data[0]
+        #t_instance[data_name.odds_cluster_2] = cluster_data[1]
+        #t_instance[data_name.odds_cluster_3] = cluster_data[2]
+        #t_instance[data_name.odds_cluster_4] = cluster_data[3]
         t_instance.update( lib.pace_teacher_analyze( current_race_data ) )
         answer_data = {}
         one_hudred_pace = lib.one_hundred_pace( self.race_data.data["wrap"] )
