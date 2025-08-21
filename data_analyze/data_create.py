@@ -78,14 +78,16 @@ def main( update = False ):
         if rank == 1:
             c = len( key_list )
             for k in tqdm( key_list ):
-                od.create( k )
+                for i in range( 0, lib.max_odds_index ):
+                    od.create( k, i )
                 c -= 1
 
                 if c % 500 == 0:
                     print( "" )
         else:
             for k in key_list:
-                od.create( k )
+                for i in range( 0, lib.max_odds_index ):
+                    od.create( k, i )
 
         file_name = str( rank ) + "-instance.pickle"
         dm.pickle_upload( file_name, od.result )

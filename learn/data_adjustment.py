@@ -93,16 +93,17 @@ def score_check( data, \
     
     for i in range( 0, len( predict_data[0] ) ):
         race_id = data["race_id"][i]
+        odds_index = data["odds_index"][i]
         year = race_id[0:4]
         ave_data = data["ave"][i][answer_key]
-        lib.dic_append( result, race_id, {} )
+        lib.dic_append( result, race_id, [{} for _ in range(lib.max_odds_index)] )
         p_data = 0
 
         for r in range( 0, len( predict_data ) ):
             p_data += predict_data[r][i]
 
         p_data /= len( predict_data )
-        result[race_id][answer_key] = p_data + ave_data
+        result[race_id][odds_index][answer_key] = p_data + ave_data
 
         if year in lib.score_years:
             score += math.pow( p_data - data["answer"][i][answer_key], 2 )

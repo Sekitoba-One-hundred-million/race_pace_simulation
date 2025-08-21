@@ -37,7 +37,7 @@ class OnceData:
         
         self.data_name_list = []
         self.write_data_list = []
-        self.result = { "answer": [], "teacher": [], "year": [], "race_id": [], "ave": [] }
+        self.result = { "answer": [], "teacher": [], "year": [], "race_id": [], "ave": [], "odds_index": [] }
         self.data_name_read()
 
     def data_name_read( self ):
@@ -75,7 +75,7 @@ class OnceData:
     def clear( self ):
         dm.dl.data_clear()
     
-    def create( self, race_id ):
+    def create( self, race_id, odds_index ):
         self.race_data.get_all_data( race_id )
         self.race_horce_data.get_all_data( race_id )
 
@@ -138,6 +138,8 @@ class OnceData:
             if not cd.race_check():
                 continue
 
+            cd.setting_odds( self.race_data.data["dev_odds_popular"][odds_index][horce_id]["odds"] )
+            cd.setting_popular( self.race_data.data["dev_odds_popular"][odds_index][horce_id]["popular"] )
             getHorceData = GetHorceData( cd, pd )
             before_diff = getHorceData.getBeforeDiff()
             before_first_passing_rank, before_last_passing_rank  = getHorceData.getBeforePassingRank()
@@ -270,19 +272,19 @@ class OnceData:
         t_instance[data_name.money_class] = money_class
         t_instance[data_name.escape_limb_count] = escape_limb_count
         t_instance[data_name.insert_limb_count] = insert_limb_count
-        #t_instance[data_name.one_popular_limb] = one_popular_limb
-        #t_instance[data_name.two_popular_limb] = two_popular_limb
-        #t_instance[data_name.three_popular_limb] = three_popular_limb
-        #t_instance[data_name.one_popular_odds] = one_popular_odds
-        #t_instance[data_name.two_popular_odds] = two_popular_odds
-        #t_instance[data_name.three_popular_odds] = three_popular_odds
+        t_instance[data_name.one_popular_limb] = one_popular_limb
+        t_instance[data_name.two_popular_limb] = two_popular_limb
+        t_instance[data_name.three_popular_limb] = three_popular_limb
+        t_instance[data_name.one_popular_odds] = one_popular_odds
+        t_instance[data_name.two_popular_odds] = two_popular_odds
+        t_instance[data_name.three_popular_odds] = three_popular_odds
         t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
         t_instance[data_name.first_straight_dist] = first_straight_dist
         t_instance[data_name.last_straight_dist] = last_straight_dist
-        #t_instance[data_name.odds_cluster_1] = cluster_data[0]
-        #t_instance[data_name.odds_cluster_2] = cluster_data[1]
-        #t_instance[data_name.odds_cluster_3] = cluster_data[2]
-        #t_instance[data_name.odds_cluster_4] = cluster_data[3]
+        t_instance[data_name.odds_cluster_1] = cluster_data[0]
+        t_instance[data_name.odds_cluster_2] = cluster_data[1]
+        t_instance[data_name.odds_cluster_3] = cluster_data[2]
+        t_instance[data_name.odds_cluster_4] = cluster_data[3]
         t_instance.update( lib.pace_teacher_analyze( current_race_data ) )
         answer_data = {}
         one_hudred_pace = lib.one_hundred_pace( self.race_data.data["wrap"] )
@@ -309,3 +311,4 @@ class OnceData:
         self.result["year"].append( year )
         self.result["race_id"].append( race_id )
         self.result["ave"].append( ave_data )
+        self.result["odds_index"].append( odds_index )
