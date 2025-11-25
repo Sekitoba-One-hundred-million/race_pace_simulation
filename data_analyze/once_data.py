@@ -138,6 +138,8 @@ class OnceData:
             if not cd.race_check():
                 continue
 
+            cd.setting_odds( self.race_data.data["dev_odds_popular"][horce_id]["odds"] )
+            cd.setting_popular( self.race_data.data["dev_odds_popular"][horce_id]["popular"] )
             getHorceData = GetHorceData( cd, pd )
             before_diff = getHorceData.getBeforeDiff()
             before_first_passing_rank, before_last_passing_rank  = getHorceData.getBeforePassingRank()
