@@ -66,7 +66,8 @@ def main( update = False ):
                 result.update( instance )
             else:
                 for k in result.keys():
-                    result[k].extend( instance[k] )
+                    if not k == "category":
+                        result[k].extend( instance[k] )
 
         dm.pickle_upload( lib.name.data_name(), result )
     else:

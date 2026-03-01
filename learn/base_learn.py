@@ -10,7 +10,7 @@ import SekitobaLibrary as lib
 import SekitobaDataManage as dm
 #from learn import simulation
 
-def lg_main( data, answer_key, index = None ):
+def lg_main( data, answer_key, category_index_list, index = None ):
     params = {}
     file_name = "{}_best_params.json".format( answer_key )
     
@@ -38,8 +38,12 @@ def lg_main( data, answer_key, index = None ):
     data["test_teacher"] = list( data["test_teacher"] )
     data["test_answer"] = list( data["test_answer"] )
 
-    lgb_train = lgb.Dataset( np.array( data["teacher"] ), np.array( data["answer"] ) )
-    lgb_vaild = lgb.Dataset( np.array( data["test_teacher"] ), np.array( data["test_answer"] ) )
+    lgb_train = lgb.Dataset( np.array( data["teacher"] ),
+                             np.array( data["answer"] ),
+                             categorical_feature = category_index_list )
+    lgb_vaild = lgb.Dataset( np.array( data["test_teacher"] ),
+                             np.array( data["test_answer"] ),
+                             categorical_feature = category_index_list )
 
     lgbm_params =  {
         'boosting_type': 'gbdt',
@@ -90,13 +94,14 @@ def importance_check( model, file_name ):
 def main( data, state = "test" ):
     model_result = {}
     result = {}
+    category_index_list = lib.create_category_index( data["category"] )
     
     for answer_key in lib.predict_pace_key_list:
         learn_data = data_adjustment.data_check( data, answer_key, state = state )
         lib.dic_append( model_result, answer_key, [] )
 
         for i in range( 0, 10 ):
-            model_result[answer_key].append( lg_main( learn_data, answer_key, index = i ) )
+            model_result[answer_key].append( lg_main( learn_data, answer_key, category_index_list, index = i ) )
 
     for answer_key in lib.predict_pace_key_list:
         data_adjustment.score_check( data, model_result[answer_key], answer_key, result, score_years = lib.simu_years )

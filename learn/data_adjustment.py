@@ -1,59 +1,9 @@
-import math
 import random
 import numpy as np
 from tqdm import tqdm
 
 import SekitobaLibrary as lib
-import SekitobaDataManage as dm
-
-def teacher_stand( data, state = "test" ):
-    data_list = []
-    """
-    for answer_key in data["answer"][0].keys():
-        data_list.clear()
-        
-        for i in range( 0, len( data["answer"] ) ):
-            data_check = lib.test_year_check( data["year"][i], state )
-
-            if not data_check == "teacher":
-                continue
-
-            data_list.append( data["answer"][i][answer_key] )
-
-        ave_data = lib.average( data_list )
-        std_data = lib.stdev( data_list )
-
-        for i in range( 0, len( data["answer"] ) ):
-            value = data["answer"][i][answer_key]
-
-            if not value == lib.base_abort:
-                data["answer"][i][answer_key] = ( value - ave_data ) / std_data
-    """
-    for r in tqdm( range( 0, len( data["teacher"][0] ) ) ):
-        data_list.clear()
-        
-        for i in range( 0, len( data["teacher"] ) ):
-            data_check = lib.test_year_check( data["year"][i], state )
-
-            if not data_check == "teacher":
-                continue
-
-            data_list.append( data["teacher"][i][r] )
-
-        ave_data = lib.average( data_list )
-        std_data = lib.stdev( data_list )
-
-        if std_data == 0:
-            continue
-
-        for i in range( 0, len( data["teacher"] ) ):
-            value = data["teacher"][i][r]
-
-            if not value == lib.base_abort:
-                data["teacher"][i][r] = ( value - ave_data ) / std_data
-            else:
-                data["teacher"][i][r] = 0
-            
+import SekitobaDataManage as dm            
 
 def data_check( data, answer_key, state = "test" ):
     result = {}
@@ -105,10 +55,9 @@ def score_check( data, \
         result[race_id][answer_key] = p_data + ave_data
 
         if year in lib.score_years:
-            score += math.pow( p_data - data["answer"][i][answer_key], 2 )
+            score += abs( p_data - data["answer"][i][answer_key] )
             count += 1
 
     score /= count
-    score = math.sqrt( score )
     print( "{} score: {}".format( answer_key, score ) )
     return score

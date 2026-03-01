@@ -37,7 +37,7 @@ class OnceData:
         
         self.data_name_list = []
         self.write_data_list = []
-        self.result = { "answer": [], "teacher": [], "year": [], "race_id": [], "ave": [] }
+        self.result = { "answer": [], "teacher": [], "year": [], "race_id": [], "ave": [], "category": {} }
         self.data_name_read()
 
     def data_name_read( self ):
@@ -57,18 +57,16 @@ class OnceData:
 
     def data_list_create( self, data_dict ):
         result = []
-        data_key_list = []
-
-        if not len( self.write_data_list ) == 0:
-            data_key_list = copy.deepcopy( self.write_data_list )
-        else:
-            data_key_list = list( data_dict.keys() )
+        name_list = sorted( list( data_dict.keys() ) )
         
-        for data_name in data_key_list:
-            result.append( round( data_dict[data_name], 3 ) )
+        for data_name in name_list:
+            if data_dict[data_name] == lib.escapeValue:
+                result.append( math.nan )
+            else:
+                result.append( round( data_dict[data_name], 3 ) )
 
         if len( self.write_data_list ) == 0:
-            self.write_data_list = copy.deepcopy( data_key_list )
+            self.write_data_list = copy.deepcopy( name_list )
 
         return result
 
@@ -264,28 +262,41 @@ class OnceData:
         for cl in oddsCluster.cluster.values():
             cluster_data[int(cl-1)] += 1
 
+        category_data = []
         t_instance = {}
         t_instance[data_name.all_horce_num] = N
+        category_data.append( data_name.all_horce_num )
         t_instance[data_name.place] = self.race_data.data["place"]
+        category_data.append( data_name.place )
         t_instance[data_name.baba] = self.race_data.data["baba"]
+        category_data.append( data_name.baba )
         t_instance[data_name.dist] = self.race_data.data["dist"]
+        category_data.append( data_name.dist )
         t_instance[data_name.kind] = self.race_data.data["kind"]
+        category_data.append( data_name.kind )
         t_instance[data_name.money_class] = money_class
+        category_data.append( data_name.money_class )
         t_instance[data_name.escape_limb_count] = escape_limb_count
+        category_data.append( data_name.escape_limb_count )
         t_instance[data_name.insert_limb_count] = insert_limb_count
-        #t_instance[data_name.one_popular_limb] = one_popular_limb
-        #t_instance[data_name.two_popular_limb] = two_popular_limb
-        #t_instance[data_name.three_popular_limb] = three_popular_limb
-        #t_instance[data_name.one_popular_odds] = one_popular_odds
-        #t_instance[data_name.two_popular_odds] = two_popular_odds
-        #t_instance[data_name.three_popular_odds] = three_popular_odds
+        category_data.append( data_name.insert_limb_count )
+        t_instance[data_name.one_popular_limb] = one_popular_limb
+        category_data.append( data_name.one_popular_limb )
+        t_instance[data_name.two_popular_limb] = two_popular_limb
+        category_data.append( data_name.two_popular_limb )
+        t_instance[data_name.three_popular_limb] = three_popular_limb
+        category_data.append( data_name.three_popular_limb )
+        t_instance[data_name.one_popular_odds] = one_popular_odds
+        t_instance[data_name.two_popular_odds] = two_popular_odds
+        t_instance[data_name.three_popular_odds] = three_popular_odds
         t_instance[data_name.predict_netkeiba_pace] = predict_netkeiba_pace
+        category_data.append( data_name.predict_netkeiba_pace )
         t_instance[data_name.first_straight_dist] = first_straight_dist
         t_instance[data_name.last_straight_dist] = last_straight_dist
-        #t_instance[data_name.odds_cluster_1] = cluster_data[0]
-        #t_instance[data_name.odds_cluster_2] = cluster_data[1]
-        #t_instance[data_name.odds_cluster_3] = cluster_data[2]
-        #t_instance[data_name.odds_cluster_4] = cluster_data[3]
+        t_instance[data_name.odds_cluster_1] = cluster_data[0]
+        t_instance[data_name.odds_cluster_2] = cluster_data[1]
+        t_instance[data_name.odds_cluster_3] = cluster_data[2]
+        t_instance[data_name.odds_cluster_4] = cluster_data[3]
         t_instance.update( lib.pace_teacher_analyze( current_race_data ) )
         answer_data = {}
         one_hudred_pace = lib.one_hundred_pace( self.race_data.data["wrap"] )
@@ -312,3 +323,6 @@ class OnceData:
         self.result["year"].append( year )
         self.result["race_id"].append( race_id )
         self.result["ave"].append( ave_data )
+
+        if len( self.result["category"] ) == 0:
+            self.result["category"] = category_data
