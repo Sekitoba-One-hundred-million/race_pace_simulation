@@ -38,13 +38,6 @@ def lg_main( data, answer_key, category_index_list, index = None ):
     data["test_teacher"] = list( data["test_teacher"] )
     data["test_answer"] = list( data["test_answer"] )
 
-    lgb_train = lgb.Dataset( np.array( data["teacher"] ),
-                             np.array( data["answer"] ),
-                             categorical_feature = category_index_list )
-    lgb_vaild = lgb.Dataset( np.array( data["test_teacher"] ),
-                             np.array( data["test_answer"] ),
-                             categorical_feature = category_index_list )
-
     lgbm_params =  {
         'boosting_type': 'gbdt',
         'objective': 'regression_l2',
@@ -57,15 +50,53 @@ def lg_main( data, answer_key, category_index_list, index = None ):
         'num_leaves': params["num_leaves"],
         'min_data_in_leaf': params["min_data_in_leaf"],
         'lambda_l1': params["lambda_l1"],
-        'lambda_l2': params["lambda_l2"]
+        'lambda_l2': params["lambda_l2"],
+        'device_type': 'cuda'
     }
+
+    index_list = list( range( 0, len( data["answer"] ) ) )
+    random.shuffle( index_list )
+
+    result = {}
+    n_splits = 10
+    n = int( len( index_list ) / n_splits + 1 )
+
+    for i in range( 0, n_splits ):
+        s = int( n * i )
+        e = min( int( n * ( i + 1 ) ), len( index_list ) )
+        use_index = index_list[:s] + index_list[e:]
+        race_id_list = [data["race_id"][r] for r in index_list[s:e]]
+        predict_teacher = [data["teacher"][r] for r in index_list[s:e]]
+        use_teacher = [data["teacher"][r] for r in use_index]
+        use_answer = [data["answer"][r] for r in use_index]
+        lgb_train = lgb.Dataset( np.array( use_teacher ),
+                                 np.array( use_answer ),
+                                 categorical_feature = category_index_list )
+        lgb_vaild = lgb.Dataset( np.array( data["test_teacher"] ),
+                                 np.array( data["test_answer"] ),
+                                 categorical_feature = category_index_list )
+        bst = lgb.train( params = lgbm_params,
+                         train_set = lgb_train,     
+                         valid_sets = [lgb_train, lgb_vaild ],
+                         num_boost_round = 5000 )
+        predict_data = bst.predict( np.array( predict_teacher ) )
+
+        for r in range( 0, len( race_id_list ) ):
+            result[race_id_list[r]] = predict_data[r]
+
+    lgb_train = lgb.Dataset( np.array( data["teacher"] ),
+                             np.array( data["answer"] ),
+                             categorical_feature = category_index_list )
+    lgb_vaild = lgb.Dataset( np.array( data["test_teacher"] ),
+                             np.array( data["test_answer"] ),
+                             categorical_feature = category_index_list )
 
     bst = lgb.train( params = lgbm_params,
                      train_set = lgb_train,     
                      valid_sets = [lgb_train, lgb_vaild ],
                      num_boost_round = 5000 )
         
-    return bst
+    return bst, result
 
 def importance_check( model, file_name ):
     result = []
@@ -94,14 +125,24 @@ def importance_check( model, file_name ):
 def main( data, state = "test" ):
     model_result = {}
     result = {}
+    l = 5
     category_index_list = lib.create_category_index( data["category"] )
     
     for answer_key in lib.predict_pace_key_list:
         learn_data = data_adjustment.data_check( data, answer_key, state = state )
         lib.dic_append( model_result, answer_key, [] )
 
-        for i in range( 0, 10 ):
-            model_result[answer_key].append( lg_main( learn_data, answer_key, category_index_list, index = i ) )
+        for i in range( 0, l ):
+            model, predict_data = lg_main( learn_data, answer_key, category_index_list, index = i )
+            model_result[answer_key].append( model )
+
+            for race_id in predict_data.keys():
+                lib.dic_append( result, race_id, {} )
+                lib.dic_append( result[race_id], answer_key, 0 )
+                result[race_id][answer_key] += predict_data[race_id]
+
+        for race_id in result.keys():
+            result[race_id][answer_key] /= l
 
     for answer_key in lib.predict_pace_key_list:
         data_adjustment.score_check( data, model_result[answer_key], answer_key, result, score_years = lib.simu_years )

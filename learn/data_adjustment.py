@@ -7,6 +7,8 @@ import SekitobaDataManage as dm
 
 def data_check( data, answer_key, state = "test" ):
     result = {}
+    result["race_id"] = []
+    result["test_race_id"] = []
     result["teacher"] = []
     result["test_teacher"] = []
     result["answer"] = []
@@ -18,13 +20,16 @@ def data_check( data, answer_key, state = "test" ):
         current_data = data["teacher"][i]
         answer_pace = data["answer"][i][answer_key]
         data_check = lib.test_year_check( data["year"][i], state )
+        race_id = data["race_id"][i]
 
         if data_check == "test":
             result["test_teacher"].append( current_data )
             result["test_answer"].append( answer_pace )
+            result["test_race_id"].append( race_id )
         elif data_check == "teacher":
             result["teacher"].append( current_data )
             result["answer"].append( answer_pace )
+            result["race_id"].append( race_id )
             
     return result
 
@@ -45,14 +50,18 @@ def score_check( data, \
         race_id = data["race_id"][i]
         year = race_id[0:4]
         ave_data = data["ave"][i][answer_key]
-        lib.dic_append( result, race_id, {} )
         p_data = 0
 
         for r in range( 0, len( predict_data ) ):
             p_data += predict_data[r][i]
 
         p_data /= len( predict_data )
-        result[race_id][answer_key] = p_data + ave_data
+        lib.dic_append( result, race_id, {} )
+
+        if not answer_key in result[race_id]:
+            result[race_id][answer_key] = p_data + ave_data
+        else:
+            result[race_id][answer_key] += ave_data
 
         if year in lib.score_years:
             score += abs( p_data - data["answer"][i][answer_key] )

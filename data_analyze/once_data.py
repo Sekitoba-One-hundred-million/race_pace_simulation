@@ -13,6 +13,7 @@ from SekitobaDataCreate.stride_ablity import StrideAblity
 from SekitobaDataCreate.get_horce_data import GetHorceData
 from SekitobaDataCreate.odds_cluster import OddsCluster
 from SekitobaDataCreate.kinetic_energy import KineticEnergy
+from SekitobaDataCreate.high_level_data_get import RaceHighLevel
 
 from common.name import Name
 
@@ -31,6 +32,7 @@ class OnceData:
         self.stride_ablity = StrideAblity( self.race_data )
         self.time_index = TimeIndexGet( self.horce_data )
         self.before_race_score = BeforeRaceScore( self.race_data )
+        self.race_high_level = RaceHighLevel()
         self.race_cource_info = dm.dl.data_get( "race_cource_info.pickle" )
         self.race_pace_analyze_data = dm.dl.data_get( "race_pace_analyze_data.pickle" )
         self.jockey_judgement_param_list = [ "limb", "popular", "flame_num", "dist", "kind", "baba", "place" ]
@@ -311,6 +313,7 @@ class OnceData:
         answer_data["pace_conv"] = lib.conv( one_hudred_pace )
         answer_data["first_up3"] = sum( one_hudred_pace[0:6] )
         answer_data["last_up3"] = sum( one_hudred_pace[int(len(one_hudred_pace)-6):len(one_hudred_pace)] )
+        answer_data["race_level"] = self.race_high_level.current_high_level( race_id )
 
         for k in answer_data.keys():
             answer_data[k] -= self.race_pace_analyze_data[key_kind][key_dist][k]
